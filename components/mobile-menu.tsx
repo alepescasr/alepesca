@@ -47,12 +47,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
         {/* Panel del menú */}
         <div className="fixed inset-0 z-40 flex">
-          <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+          <Dialog.Panel className="relative mr-auto flex h-[70vh] w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl rounded-tr-3xl rounded-br-3xl">
             <div className="flex items-center justify-between px-4 py-4">
               <h2 className="text-lg font-medium">Categorías</h2>
               <button
                 type="button"
-                className="rounded-md p-2 text-gray-400 hover:text-gray-500"
+                className="rounded-full p-2 text-gray-400 hover:text-gray-500"
                 onClick={onClose}
               >
                 <X size={24} />
@@ -66,8 +66,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   key={route.href}
                   href={route.href}
                   className={cn(
-                    'block text-sm font-medium transition-colors hover:text-black',
-                    route.active ? 'text-black' : 'text-neutral-500'
+                    'block text-sm font-medium transition-colors hover:text-black rounded-r-full px-4 py-2',
+                    route.active ? 'text-black bg-neutral-100' : 'text-neutral-500'
                   )}
                   onClick={onClose}
                 >
