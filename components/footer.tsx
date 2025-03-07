@@ -67,7 +67,7 @@ const Footer = () => {
       
       <div className="border-t border-primary-light mt-10 pt-6">
         <p className="text-center text-primary-lighter text-sm">
-          &copy; {new Date().getFullYear()} PescaShop. Todos los derechos reservados.
+          &copy; {new Date().getFullYear()} AlePescaSR. Todos los derechos reservados.
         </p>
       </div>
     </div>
