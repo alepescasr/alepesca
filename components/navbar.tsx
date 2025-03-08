@@ -11,14 +11,14 @@ const Navbar = async () => {
   const categories = await getCategories();
 
   return ( 
-    <div className="border-b">
+    <div className="border-b bg-primary">
       <Container>
-        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center">
+        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center text-white">
           <div className="flex items-center lg:hidden">
             <MobileMenu data={categories} />
           </div>
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
-            <p className="font-bold text-xl">AlePescaSR</p>
+            <p className="font-bold text-xl">STORE</p>
           </Link>
           <div className="hidden lg:block">
             <MainNav data={categories} />
