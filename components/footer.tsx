@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
-const Footer = () => {
+import getCategories from "@/actions/get-categories";
+
+const Footer = async () => {
+  const categories = await getCategories();
+
   return (
     <footer className="border-t border-primary-light bg-primary text-black pt-12 pb-6">
     <div className="container mx-auto px-4">
@@ -27,11 +31,16 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4 text-accent">Categorías</h3>
           <ul className="space-y-2">
-            <li><a href="#" className="text-primary-lighter hover:text-white transition-colors duration-300">Cañas de Pescar</a></li>
-            <li><a href="#" className="text-primary-lighter hover:text-white transition-colors duration-300">Carretes</a></li>
-            <li><a href="#" className="text-primary-lighter hover:text-white transition-colors duration-300">Señuelos</a></li>
-            <li><a href="#" className="text-primary-lighter hover:text-white transition-colors duration-300">Accesorios</a></li>
-            <li><a href="#" className="text-primary-lighter hover:text-white transition-colors duration-300">Ropa</a></li>
+            {categories.map((category) => (
+              <li key={category.id}>
+                <Link 
+                  href={`/category/${category.id}`} 
+                  className="text-primary-lighter hover:text-white transition-colors duration-300"
+                >
+                  {category.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         
