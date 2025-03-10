@@ -10,8 +10,8 @@ import './globals.css'
 const font = Urbanist({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Store',
-  description: 'Store - The place for all your purchases.',
+  title: 'AlePescaSR',
+  description: 'AlePescaSR - Tu tienda especializada en artículos de pesca deportiva con los mejores productos y marcas del mercado.',
 }
 
 export default function RootLayout({
