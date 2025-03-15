@@ -18,7 +18,10 @@ const ProductList: React.FC<ProductListProps> = ({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     loop: true,
-    dragFree: true
+    dragFree: false,
+    skipSnaps: false,
+    containScroll: 'trimSnaps',
+    slidesToScroll: 1
   });
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
