@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
+    "embla-carousel-react": "^8.5.2",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "lucide-react": "^0.241.0",
