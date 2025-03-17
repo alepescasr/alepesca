@@ -20,10 +20,10 @@ const HomePage: React.FC = async () => {
             imageUrl: "https://plus.unsplash.com/premium_photo-1661762422433-b18f87b64341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           }}
         />
-        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lightest py-8 rounded-xl">
+        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lightest/60 py-8 rounded-xl">
           <ProductList title="Destacados" items={products} />
         </div>
-        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lightest py-8 rounded-xl">
+        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lightest/60 py-8 rounded-xl">
           <ProductList title="Ofertas" items={products} />
         </div>
       </div>

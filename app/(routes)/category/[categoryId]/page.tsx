@@ -46,13 +46,13 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1470&auto=format&fit=crop"
           }}
         />
-        <div className="px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="px-4 sm:px-6 lg:px-8 pb-24 mt-10">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             {/* <MobileFilters  colors={colors} /> */}
             <div className="hidden lg:block">
               <Filter 
                 valueKey="colorId" 
-                name="Colors" 
+                name="Color" 
                 data={colors}
               />
             </div>
