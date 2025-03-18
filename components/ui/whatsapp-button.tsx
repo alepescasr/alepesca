@@ -2,7 +2,7 @@
 
 const WhatsAppButton = () => {
   const handleClick = () => {
-    const phoneNumber = "2604843883";
+    const phoneNumber = "2604203641";
     const message = encodeURIComponent("Hola buenas tardes, quiero hacerles una consulta sobre: ");
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };

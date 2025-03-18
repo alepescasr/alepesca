@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCard> = ({
       </div>
       {/* Detalles del producto */}
       <div className="flex-grow">
-        <p className="font-semibold text-lg">{data.name}</p>
+        <p className="font-semibold text-lg overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal">{data.name}</p>
         <p className="text-sm text-primary-light">{data.category?.name}</p>
       </div>
       {/* Precio */}
