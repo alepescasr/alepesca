@@ -5,6 +5,8 @@ import Billboard from "@/components/ui/billboard";
 import Container from "@/components/ui/container";
 import SearchBar from "@/components/ui/search-bar";
 import BrandSlider from "@/components/brand-slider";
+import CategoryCards from "@/components/category-cards";
+import InstagramFeed from "@/components/instagram-feed";
 
 export const revalidate = 0;
 
@@ -43,6 +45,7 @@ const HomePage = async () => {
           </div>
         </div>
         <BrandSlider />
+        <CategoryCards />
         <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lighter/70 py-8 rounded-xl mt-8">
           <ProductList title="Destacados" items={featuredProducts} />
         </div>
@@ -51,6 +54,7 @@ const HomePage = async () => {
             <ProductList title="Ofertas" items={offerProducts} />
           </div>
         )}
+        <InstagramFeed />
       </div>
     </Container>
   )
