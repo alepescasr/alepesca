@@ -4,7 +4,7 @@ import ProductCard from '@/components/ui/product-card';
 import NoResults from '@/components/ui/no-results';
 
 import getProducts from "@/actions/get-products";
-import getCategory from '@/actions/get-category';
+import getCategories from "@/actions/get-categories";
 
 import getColors from '@/actions/get-colors';
 
@@ -20,7 +20,6 @@ interface CategoryPageProps {
   },
   searchParams: {
     colorId: string;
-
   }
 }
 
@@ -28,14 +27,19 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params, 
   searchParams
 }) => {
-  const products = await getProducts({ 
-    categoryId: params.categoryId,
-    colorId: searchParams.colorId,
+  const categories = await getCategories();
+  const category = categories.find(cat => cat.name.toLowerCase() === params.categoryId.toLowerCase());
 
+  if (!category) {
+    return null;
+  }
+
+  const products = await getProducts({ 
+    categoryId: category.id,
+    colorId: searchParams.colorId,
   });
 
   const colors = await getColors();
-  const category = await getCategory(params.categoryId);
 
   return (
     <div className="bg-white">

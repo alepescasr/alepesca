@@ -19,9 +19,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const pathname = usePathname();
 
   const routes = data.map((route) => ({
-    href: `/category/${route.id}`,
+    href: `/category/${route.name.toLowerCase()}`,
     label: route.name,
-    active: pathname === `/category/${route.id}`,
+    active: pathname === `/category/${route.name.toLowerCase()}`,
   }));
 
   const onOpen = () => setOpen(true);

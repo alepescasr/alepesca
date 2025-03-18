@@ -34,7 +34,7 @@ const Footer = async () => {
             {categories.map((category) => (
               <li key={category.id}>
                 <Link 
-                  href={`/category/${category.id}`} 
+                  href={`/category/${category.name.toLowerCase()}`} 
                   className="text-primary-lighter hover:text-white transition-colors duration-300"
                 >
                   {category.name}
@@ -57,27 +57,34 @@ const Footer = async () => {
         
         <div>
           <h3 className="text-lg font-semibold mb-4 text-accent">Contacto</h3>
-          <ul className="space-y-3">
-            <li className="flex items-start">
-              <MapPin size={18} className="mr-2 mt-1 flex-shrink-0 text-primary-lighter" />
-              <span className="text-primary-lighter">Av. Principal 123, Ciudad</span>
+          <ul className="space-y-4">
+            <li className="flex items-center text-primary-lighter">
+              <MapPin size={20} className="mr-2" />
+              <span>San Rafael, Mendoza</span>
             </li>
-            <li className="flex items-center">
-              <Phone size={18} className="mr-2 flex-shrink-0 text-primary-lighter" />
-              <span className="text-primary-lighter">+1 234 567 890</span>
+            <li className="flex items-center text-primary-lighter">
+              <Phone size={20} className="mr-2" />
+              <span>+54 9 260 4123456</span>
             </li>
-            <li className="flex items-center">
-              <Mail size={18} className="mr-2 flex-shrink-0 text-primary-lighter" />
-              <span className="text-primary-lighter">info@pescashop.com</span>
+            <li className="flex items-center text-primary-lighter">
+              <Mail size={20} className="mr-2" />
+              <span>info@alepescasr.com</span>
             </li>
           </ul>
         </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-accent">Horarios</h3>
+          <ul className="space-y-2">
+            <li className="text-primary-lighter">Lunes a Viernes: 9:00 - 18:00</li>
+            <li className="text-primary-lighter">Sábados: 9:00 - 13:00</li>
+            <li className="text-primary-lighter">Domingos: Cerrado</li>
+          </ul>
+        </div>
       </div>
-      
-      <div className="border-t border-primary-light mt-10 pt-6">
-        <p className="text-center text-primary-lighter text-sm">
-          &copy; {new Date().getFullYear()} AlePescaSR. Todos los derechos reservados.
-        </p>
+
+      <div className="mt-8 pt-8 border-t border-primary-light text-center text-primary-lighter">
+        <p>&copy; 2024 AlePescaSR. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
