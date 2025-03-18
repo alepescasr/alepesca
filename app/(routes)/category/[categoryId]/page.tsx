@@ -10,6 +10,7 @@ import getColors from '@/actions/get-colors';
 
 import Filter from './components/filter';
 import MobileFilters from './components/mobile-filters';
+import SearchBar from '@/components/ui/search-bar';
 
 export const revalidate = 0;
 
@@ -39,20 +40,25 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   return (
     <div className="bg-white">
       <Container>
-        <Billboard 
-          data={{
-            id: "1",
-            label: "Productos de Calidad",
-            imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1470&auto=format&fit=crop"
-          }}
-        />
-        <div className="px-4 sm:px-6 lg:px-8 pb-24 mt-10">
+        <div className="relative">
+          <Billboard data={/* category.billboard */ 
+            {
+              id: "1",
+              label: "Productos de Calidad",
+              imageUrl: "https://www.mendozapost.com/files/image/107/107876/586e5d09f347a.jpg"
+            }
+          } />
+          <div className="absolute -bottom-5 left-0 right-0">
+            <SearchBar />
+          </div>
+        </div>
+        <div className="px-4 sm:px-6 lg:px-8 pb-24 mt-8">
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             {/* <MobileFilters  colors={colors} /> */}
             <div className="hidden lg:block">
               <Filter 
                 valueKey="colorId" 
-                name="Color" 
+                name="Colors" 
                 data={colors}
               />
             </div>

@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className={font.className + " bg-primary-lighter/30"}>
         <ToastProvider />
         <ModalProvider />
         <Navbar />

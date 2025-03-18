@@ -42,7 +42,7 @@ const ProductCard: React.FC<ProductCard> = ({
   return ( 
     <div onClick={handleClick} className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4 h-full flex flex-col">
       {/* Imagen */}
-      <div className="aspect-square rounded-xl bg-primary-lightest relative">
+      <div className="aspect-square rounded-xl bg-primary-lightest/60 relative">
         <Image 
           src={data.images?.[0]?.url} 
           alt="" 
@@ -64,7 +64,18 @@ const ProductCard: React.FC<ProductCard> = ({
       </div>
       {/* Precio */}
       <div className="flex items-center justify-between mt-auto">
-        <Currency value={data.price} />
+        {data.hasOffer && data.offerPrice ? (
+          <>
+            <div className="text-gray-500 line-through">
+              <Currency value={data.price} />
+            </div>
+            <div className="text-lg font-bold text-primary">
+              <Currency value={data.offerPrice} />
+            </div>
+          </>
+        ) : (
+          <Currency value={data.price} />
+        )}
       </div>
     </div>
   );
