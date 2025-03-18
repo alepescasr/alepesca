@@ -33,7 +33,11 @@ export interface Subcategory {
 export interface Billboard {
   id: string;
   label: string;
-  imageUrl: string;
+  imageUrl?: string;
+  images?: {
+    url: string;
+    alt: string;
+  }[];
 }
 
 export interface Provider {

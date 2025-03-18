@@ -21,8 +21,22 @@ const HomePage = async () => {
             data={{
               id: "1",
               label: "Productos de Pesca Deportiva",
-              imageUrl: "https://www.losreyunossanrafael.com/assets/img/slide1.jpg"
+              images: [
+                {
+                  url: "https://www.losreyunossanrafael.com/assets/img/slide1.jpg",
+                  alt: "Pesca deportiva 1"
+                },
+                {
+                  url: "https://www.mendozapost.com/files/image/107/107876/586e5d09f347a.jpg",
+                  alt: "Pesca deportiva 2"
+                },
+                {
+                  url: "https://images.unsplash.com/photo-1542359649-31e03cd4d909?q=80&w=1074&auto=format&fit=crop",
+                  alt: "Pesca deportiva 3"
+                }
+              ]
             }}
+            showControls={true}
           />
           <div className="absolute -bottom-5 left-0 right-0">
             <SearchBar />
