@@ -18,6 +18,52 @@ interface CartStore {
   removeAll: () => void;
 }
 
+// Función para migrar datos antiguos del carrito
+const migrateStateFromLocalStorage = () => {
+  try {
+    // Intenta obtener los datos del carrito del localStorage
+    const persistedState = localStorage.getItem("cart-storage");
+
+    if (persistedState) {
+      const parsedState = JSON.parse(persistedState);
+
+      // Verificar si el estado tiene el formato antiguo (array de Products en lugar de CartItems)
+      if (parsedState?.state?.items && Array.isArray(parsedState.state.items)) {
+        const items = parsedState.state.items;
+
+        // Comprobar si los items tienen el formato antiguo (no tienen propiedad 'product')
+        if (items.length > 0 && !items[0].product && items[0].id) {
+          // Convertir al nuevo formato
+          const migratedItems = items.map((item: Product) => ({
+            product: item,
+            quantity: 1,
+          }));
+
+          // Guardar el estado migrado
+          localStorage.setItem(
+            "cart-storage",
+            JSON.stringify({
+              state: { items: migratedItems },
+              version: parsedState.version,
+            })
+          );
+
+          return true;
+        }
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error("Error migrando datos del carrito:", error);
+    // Si hay un error, es más seguro limpiar el carrito
+    localStorage.removeItem("cart-storage");
+    return false;
+  }
+};
+
+// Intentar migrar los datos antes de inicializar el store
+migrateStateFromLocalStorage();
+
 const useCart = create(
   persist<CartStore>(
     (set, get) => ({

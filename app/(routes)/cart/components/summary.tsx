@@ -27,6 +27,9 @@ const Summary = () => {
 
   // Calcular subtotal considerando cantidades y precios con oferta
   const subtotal = items.reduce((total, item) => {
+    // Validar que el item tenga la estructura correcta
+    if (!item.product) return total;
+
     const itemPrice =
       item.product.hasOffer && item.product.offerPrice
         ? Number(item.product.offerPrice)
@@ -37,6 +40,17 @@ const Summary = () => {
 
   const onCheckout = async () => {
     try {
+      // Verificar si hay items inválidos antes de procesar
+      const hasInvalidItems = items.some(
+        (item) => !item.product || !item.product.id
+      );
+      if (hasInvalidItems) {
+        toast.error(
+          "Hay productos inválidos en el carrito. Por favor, recarga la página."
+        );
+        return;
+      }
+
       // Preparar los datos para la solicitud de pago incluyendo items completos y cantidades
       const cartItems = items.map((item) => ({
         productId: item.product.id,
@@ -74,7 +88,11 @@ const Summary = () => {
   };
 
   // Contar el número total de productos (suma de cantidades)
-  const itemCount = items.reduce((count, item) => count + item.quantity, 0);
+  const itemCount = items.reduce((count, item) => {
+    // Validar que el item tenga la estructura correcta
+    if (!item.product) return count;
+    return count + item.quantity;
+  }, 0);
 
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
