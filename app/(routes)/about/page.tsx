@@ -4,19 +4,19 @@ import Image from "next/image";
 const AboutPage = () => {
   const images = [
     {
-      src: "/images/about/about1.jpg",
+      src: "/images/about/about1.jpeg",
       alt: "Local comercial AlePescaSR",
-      caption: "Nuestro local en San Rafael"
+      caption: "Nosotros"
     },
     {
-      src: "/images/about/about2.jpg",
+      src: "/images/about/about2.jpeg",
       alt: "Equipo AlePescaSR",
-      caption: "Nuestro equipo de expertos"
+      caption: "Familia"
     },
     {
-      src: "/images/about/about3.jpg",
-      alt: "Productos de pesca",
-      caption: "Amplia selección de productos"
+      src: "/images/about/about3.jpeg",
+      alt: "Primer local",
+      caption: "Apertura"
     }
   ];
 
@@ -44,7 +44,34 @@ const AboutPage = () => {
 
         <div className="prose max-w-none">
           <p className="text-lg mb-6">
-            En AlePescaSR, nos apasiona la pesca deportiva y nos enorgullece ser el destino preferido de los pescadores en San Rafael, Mendoza. Con más de una década de experiencia en el sector, nos hemos consolidado como líderes en la provisión de equipos y accesorios de pesca de la más alta calidad.
+            Ale Pesca nació en 2024 de la mano de Alejandro Luengo y Emmanuel Luengo, padre e hijo pescadores. Su pasión por la pesca los llevó a cumplir un gran sueño: abrir su propio local físico, que se hizo realidad el 9 de marzo de 2025.
+          </p>
+
+          <p className="text-lg mb-6">
+            Desde el primer día, su objetivo fue claro: acompañar y asesorar a familias de pescadores, brindándoles todo lo que necesitan para disfrutar de esta pasión juntos. En Ale Pesca encontrarás equipos tanto para quienes están dando sus primeros pasos como para pescadores experimentados.
+          </p>
+
+          <p className="text-lg mb-6">
+            Además, pensamos en cada detalle para que tu jornada de pesca sea perfecta:
+          </p>
+          
+          <ul className="list-none pl-6 mb-6 text-lg space-y-2">
+            <li className="flex items-center">
+              <span className="mr-2">🎣</span>
+              Amplia variedad de cañas, reels y accesorios
+            </li>
+            <li className="flex items-center">
+              <span className="mr-2">🏕️</span>
+              Artículos de camping para hacer de cada salida una experiencia única
+            </li>
+            <li className="flex items-center">
+              <span className="mr-2">🌞</span>
+              Indumentaria UV para protegerte del sol y pescar con comodidad y seguridad
+            </li>
+          </ul>
+
+          <p className="text-lg mb-6">
+            Nos apasiona la pesca tanto como a vos, y queremos ser tu tienda de confianza. ¡Te esperamos en Ale Pesca!
           </p>
 
           <p className="text-lg mb-6">

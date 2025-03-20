@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 
 import MainNav from "@/components/main-nav";
 import Container from "@/components/ui/container";
@@ -18,7 +19,15 @@ const Navbar = async () => {
             <MobileMenu data={categories} />
           </div>
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
-            <p className="font-bold text-xl">AlePescaSR</p>
+            <div className="relative w-32 h-12">
+              <Image
+                src="/logo-1.png"
+                alt="AlePescaSR Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </Link>
           <div className="hidden lg:block">
             <MainNav data={categories} />

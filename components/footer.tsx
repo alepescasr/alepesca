@@ -11,9 +11,17 @@ const Footer = async () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">AlePescaSR</h3>
+            <div className="relative w-40 h-16 mb-4 rounded-lg p-2">
+              <Image
+                src="/logo-1.png"
+                alt="AlePescaSR Logo"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
             <p className="text-primary-lighter mb-4">
-              Tu tienda especializada en artículos de pesca deportiva con los mejores productos y marcas del mercado.
+              Los mejores productos y marcas del mercado.
             </p>
             <div className="flex space-x-4">
               <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
@@ -104,7 +112,7 @@ const Footer = async () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-primary-light text-center text-primary-lighter">
-          <p>&copy; 2024 AlePescaSR. Todos los derechos reservados.</p>
+          <p>&copy; 2024 AlePesca. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>
