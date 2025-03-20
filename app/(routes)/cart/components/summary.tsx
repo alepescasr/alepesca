@@ -15,45 +15,92 @@ const Summary = () => {
   const removeAll = useCart((state) => state.removeAll);
 
   useEffect(() => {
-    if (searchParams.get('success')) {
-      toast.success('Pago completado.');
+    if (searchParams.get("success")) {
+      toast.success("Pago completado.");
       removeAll();
     }
 
-    if (searchParams.get('canceled')) {
-      toast.error('Algo salió mal.');
+    if (searchParams.get("canceled")) {
+      toast.error("Algo salió mal.");
     }
   }, [searchParams, removeAll]);
 
-  const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.price)
+  // Calcular subtotal considerando cantidades y precios con oferta
+  const subtotal = items.reduce((total, item) => {
+    const itemPrice =
+      item.product.hasOffer && item.product.offerPrice
+        ? Number(item.product.offerPrice)
+        : Number(item.product.price);
+
+    return total + itemPrice * item.quantity;
   }, 0);
 
   const onCheckout = async () => {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      productIds: items.map((item) => item.id)
-    });
+    try {
+      // Preparar los datos para la solicitud de pago incluyendo items completos y cantidades
+      const cartItems = items.map((item) => ({
+        productId: item.product.id,
+        quantity: item.quantity,
+      }));
 
-    window.location = response.data.url;
-  }
+      // Preparar un objeto simple para los datos del formulario (si se implementa después)
+      const orderFormData = {
+        // Aquí se pueden añadir campos de formulario si se implementan después
+      };
 
-  return ( 
-    <div
-      className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
-    >
+      // Mostrar carga
+      toast.loading("Procesando tu pago...");
+
+      // Enviar cartItems completos
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+        {
+          cartItems,
+          orderFormData,
+        }
+      );
+
+      // Redirigir al usuario
+      if (response.data && response.data.url) {
+        window.location = response.data.url;
+      } else {
+        throw new Error("No se recibió URL de pago");
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Error al procesar el pago");
+      console.error("Error during checkout:", error);
+    }
+  };
+
+  // Contar el número total de productos (suma de cantidades)
+  const itemCount = items.reduce((count, item) => count + item.quantity, 0);
+
+  return (
+    <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-lg font-medium text-gray-900">
         Detalles de la orden
       </h2>
       <div className="mt-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-gray-600">
+            Subtotal ({itemCount} {itemCount === 1 ? "producto" : "productos"})
+          </div>
+          <Currency value={subtotal} />
+        </div>
         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base font-medium text-gray-900">Order total</div>
-         <Currency value={totalPrice} />
+          <div className="text-base font-medium text-gray-900">Total</div>
+          <Currency value={subtotal} />
         </div>
       </div>
-      <Button onClick={onCheckout} disabled={items.length === 0} className="w-full mt-6">
+      <Button
+        onClick={onCheckout}
+        disabled={items.length === 0}
+        className="w-full mt-6"
+      >
         Pagar
       </Button>
     </div>
   );
-}
+};
 export default Summary;
