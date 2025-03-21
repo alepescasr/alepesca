@@ -66,7 +66,7 @@ const ShippingPage = () => {
           </p>
           <ul className="list-none pl-6 mb-6 text-lg">
             <li>WhatsApp: +54 9 260 4123456</li>
-            <li>Email: envios@alepescasr.com</li>
+            <li>Email: envios@AlePesca.com</li>
             <li>Teléfono: (260) 4123456</li>
           </ul>
         </div>

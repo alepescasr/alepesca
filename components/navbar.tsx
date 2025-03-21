@@ -22,7 +22,7 @@ const Navbar = async () => {
             <div className="relative w-32 h-12">
               <Image
                 src="/logo-1.png"
-                alt="AlePescaSR Logo"
+                alt="AlePesca Logo"
                 fill
                 className="object-contain"
                 priority

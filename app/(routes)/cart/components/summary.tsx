@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Button from "@/components/ui/button";
@@ -9,7 +9,17 @@ import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 import { toast } from "react-hot-toast";
 
-const Summary = () => {
+interface SummaryProps {
+  shippingCost: number;
+  paymentMethod: string;
+  onTotalChange: (total: number) => void;
+}
+
+const Summary: React.FC<SummaryProps> = ({ 
+  shippingCost = 0, 
+  paymentMethod,
+  onTotalChange
+}) => {
   const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
@@ -38,7 +48,18 @@ const Summary = () => {
     return total + itemPrice * item.quantity;
   }, 0);
 
+  const finalTotal = subtotal + shippingCost;
+
+  useEffect(() => {
+    onTotalChange(finalTotal);
+  }, [finalTotal, onTotalChange]);
+
   const onCheckout = async () => {
+    if (paymentMethod === 'transfer') {
+      // No hacer nada, el pago se maneja en el componente ShippingPayment
+      return;
+    }
+
     try {
       // Verificar si hay items inválidos antes de procesar
       const hasInvalidItems = items.some(
@@ -59,7 +80,8 @@ const Summary = () => {
 
       // Preparar un objeto simple para los datos del formulario (si se implementa después)
       const orderFormData = {
-        // Aquí se pueden añadir campos de formulario si se implementan después
+        shippingCost,
+        paymentMethod
       };
 
       // Mostrar carga
@@ -97,28 +119,34 @@ const Summary = () => {
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-lg font-medium text-gray-900">
-        Detalles de la orden
+        Resumen del pedido
       </h2>
       <div className="mt-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            Subtotal ({itemCount} {itemCount === 1 ? "producto" : "productos"})
-          </div>
+        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+          <div className="text-base font-medium text-gray-900">Subtotal</div>
           <Currency value={subtotal} />
         </div>
         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base font-medium text-gray-900">Total</div>
-          <Currency value={subtotal} />
+          <div className="text-base font-medium text-gray-900">Envío</div>
+          <Currency value={shippingCost} />
+        </div>
+        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+          <div className="text-lg font-semibold text-gray-900">Total</div>
+          <Currency value={finalTotal} />
         </div>
       </div>
-      <Button
-        onClick={onCheckout}
-        disabled={items.length === 0}
-        className="w-full mt-6"
-      >
-        Pagar
-      </Button>
+      {paymentMethod === 'card' && (
+        <Button
+          onClick={onCheckout}
+          disabled={items.length === 0}
+          className="w-full mt-6"
+        >
+          Pagar con tarjeta
+        </Button>
+      )}
     </div>
   );
 };
+
 export default Summary;
+

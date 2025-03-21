@@ -9,7 +9,7 @@ const PrivacyPage = () => {
         <div className="prose max-w-none">
           <h2 className="text-2xl font-bold mt-8 mb-4">1. Información que Recopilamos</h2>
           <p className="text-lg mb-6">
-            En AlePescaSR, recopilamos información personal cuando usted:
+            En AlePesca, recopilamos información personal cuando usted:
           </p>
           <ul className="list-disc pl-6 mb-6 text-lg">
             <li>Crea una cuenta en nuestro sitio web</li>
@@ -61,7 +61,7 @@ const PrivacyPage = () => {
             Si tiene preguntas sobre nuestra política de privacidad, puede contactarnos en:
           </p>
           <ul className="list-none pl-6 mb-6 text-lg">
-            <li>Email: privacy@alepescasr.com</li>
+            <li>Email: privacy@AlePesca.com</li>
             <li>Teléfono: +54 9 260 4123456</li>
             <li>Dirección: San Rafael, Mendoza, Argentina</li>
           </ul>

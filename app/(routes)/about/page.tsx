@@ -5,12 +5,12 @@ const AboutPage = () => {
   const images = [
     {
       src: "/images/about/about1.jpeg",
-      alt: "Local comercial AlePescaSR",
+      alt: "Local comercial AlePesca",
       caption: "Nosotros"
     },
     {
       src: "/images/about/about2.jpeg",
-      alt: "Equipo AlePescaSR",
+      alt: "Equipo AlePesca",
       caption: "Familia"
     },
     {
@@ -89,7 +89,7 @@ const AboutPage = () => {
 
           <h2 className="text-2xl font-bold mt-8 mb-4">Compromiso con la Comunidad</h2>
           <p className="text-lg mb-6">
-            En AlePescaSR, creemos en la importancia de construir una comunidad de pescadores responsables. Organizamos regularmente eventos, talleres y salidas de pesca para compartir conocimientos y promover prácticas de pesca sostenibles que ayuden a preservar nuestros recursos naturales para las generaciones futuras.
+            En AlePesca, creemos en la importancia de construir una comunidad de pescadores responsables. Organizamos regularmente eventos, talleres y salidas de pesca para compartir conocimientos y promover prácticas de pesca sostenibles que ayuden a preservar nuestros recursos naturales para las generaciones futuras.
           </p>
         </div>
       </div>

@@ -7,11 +7,15 @@ import useCart from "@/hooks/use-cart";
 
 import Summary from "./components/summary";
 import CartItem from "./components/cart-item";
+import ShippingPayment from "@/components/shipping-payment";
 
 export const revalidate = 0;
 
 const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [shippingCost, setShippingCost] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [totalAmount, setTotalAmount] = useState(0);
   const cart = useCart();
 
   useEffect(() => {
@@ -52,20 +56,38 @@ const CartPage = () => {
           <h1 className="text-3xl font-bold text-black">Carrito de Compras</h1>
           <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start gap-x-12">
             <div className="lg:col-span-7">
-              {cart.items.length === 0 && (
+              {cart.items.length === 0 ? (
                 <p className="text-neutral-500">
                   No hay productos en el carrito.
                 </p>
+              ) : (
+                <>
+                  <ul className="divide-y divide-gray-200">
+                    {cart.items.map((item) =>
+                      item.product && item.product.id ? (
+                        <CartItem key={item.product.id} data={item} />
+                      ) : null
+                    )}
+                  </ul>
+                  
+                  <div className="mt-8">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                      Opciones de envío y pago
+                    </h2>
+                    <ShippingPayment 
+                      onShippingChange={setShippingCost}
+                      onPaymentMethodChange={setPaymentMethod}
+                      totalAmount={totalAmount}
+                    />
+                  </div>
+                </>
               )}
-              <ul>
-                {cart.items.map((item) =>
-                  item.product && item.product.id ? (
-                    <CartItem key={item.product.id} data={item} />
-                  ) : null
-                )}
-              </ul>
             </div>
-            <Summary />
+            <Summary 
+              shippingCost={shippingCost}
+              paymentMethod={paymentMethod}
+              onTotalChange={setTotalAmount}
+            />
           </div>
         </div>
       </Container>
