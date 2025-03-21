@@ -46,11 +46,11 @@ const HomePage = async () => {
         </div>
         <BrandSlider />
         <CategoryCards />
-        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lighter/70 py-8 rounded-xl mt-8">
+        <div className="Flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lighter/70 py-3 rounded-xl ">
           <ProductList title="Destacados" items={featuredProducts} />
         </div>
         {offerProducts.length > 0 && (
-          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lighter/70 py-8 rounded-xl">
+          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8 bg-primary-lighter/70 py-3 rounded-xl">
             <ProductList title="Ofertas" items={offerProducts} />
           </div>
         )}
