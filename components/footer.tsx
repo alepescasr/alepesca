@@ -12,8 +12,8 @@ const Footer = async () => {
       <div className="mx-auto py-10">
         <div className="flex flex-col items-center md:flex-row md:items-start md:justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo y redes sociales */}
-          <div className="w-full md:w-1/4 flex flex-col items-center md:items-start mb-8 md:mb-0">
-            <div className="w-40 h-20 relative mb-4">
+          <div className="w-full md:w-1/4 flex flex-col items-center mb-8 md:mb-0">
+            <div className="w-40 h-20 relative mb-4 flex justify-center">
               <Image
                 src="/images/logos/logo-1.png"
                 alt="Logo"
@@ -22,10 +22,10 @@ const Footer = async () => {
                 priority
               />
             </div>
-            <div className="flex gap-4 mt-2 justify-center md:justify-start w-full">
+            <div className="flex gap-4 mt-2 justify-center">
               <Link 
-                href="https://www.facebook.com/alepescasr" 
-                target="_blank" 
+                href="https://www.facebook.com/profile.php?id=100063559680935" 
+                target="_blank"
                 className="text-primary-lighter hover:text-accent transition-colors duration-300"
                 aria-label="Facebook"
               >
@@ -37,7 +37,7 @@ const Footer = async () => {
               </Link>
               <Link 
                 href="https://www.instagram.com/alepescasr" 
-                target="_blank" 
+                target="_blank"
                 className="text-primary-lighter hover:text-accent transition-colors duration-300"
                 aria-label="Instagram"
               >
@@ -96,7 +96,7 @@ const Footer = async () => {
           <div className="w-full md:w-1/4 text-center md:text-left">
             <h3 className="text-lg font-semibold mb-4 text-accent">Contacto</h3>
             <div className="space-y-2">
-              <p className="text-primary-lighter">San Ramón, Alajuela</p>
+              <p className="text-primary-lighter">San Rafael, Alajuela</p>
               <p className="text-primary-lighter">Teléfono: +506 8302-9383</p>
               <p className="text-primary-lighter">Email: alepescacr@gmail.com</p>
             </div>

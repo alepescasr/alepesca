@@ -58,7 +58,7 @@ const BrandSlider = () => {
   }, [emblaApi]);
 
   return (
-    <div className="w-full bg-transparent py-4">
+    <div className="w-full bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
