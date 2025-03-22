@@ -20,7 +20,10 @@ const Summary = () => {
   }, [searchParams, removeAll]);
 
   const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.price)
+    const itemPrice = item.product.hasOffer && item.product.offerPrice
+      ? Number(item.product.offerPrice)
+      : Number(item.product.price);
+    return total + (itemPrice * item.quantity);
   }, 0);
 
   const finalTotal = totalPrice + shippingCost;
