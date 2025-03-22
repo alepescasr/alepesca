@@ -12,6 +12,7 @@ const Summary = () => {
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
   const [shippingCost, setShippingCost] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState('card');
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -40,7 +41,11 @@ const Summary = () => {
       
       {/* Opciones de envío y pago */}
       <div className="mt-6">
-        <ShippingPayment onShippingChange={setShippingCost} />
+        <ShippingPayment 
+          onShippingChange={setShippingCost}
+          onPaymentMethodChange={setPaymentMethod}
+          totalAmount={finalTotal}
+        />
       </div>
 
       <div className="mt-6 space-y-4">
