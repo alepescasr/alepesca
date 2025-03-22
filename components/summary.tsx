@@ -13,6 +13,11 @@ const Summary = () => {
   const removeAll = useCart((state) => state.removeAll);
   const [shippingCost, setShippingCost] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -32,6 +37,10 @@ const Summary = () => {
   const onCheckout = async () => {
     // Aquí iría la lógica de checkout
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
