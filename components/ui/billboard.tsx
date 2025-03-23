@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { Billboard } from "@/types";
 import { useState, useEffect } from "react";
 import useEmblaCarousel from 'embla-carousel-react';
@@ -23,7 +24,7 @@ const Billboard: React.FC<BillboardProps> = ({
     if (emblaApi && data.images && data.images.length > 1) {
       const autoplay = setInterval(() => {
         emblaApi.scrollNext();
-      }, 5000); // Cambia cada 5 segundos
+      }, 5000);
 
       return () => clearInterval(autoplay);
     }
@@ -32,12 +33,18 @@ const Billboard: React.FC<BillboardProps> = ({
   // Si no hay imágenes múltiples, usa la imageUrl tradicional
   if (!data.images || data.images.length === 0) {
     return (
-      <div className="overflow-hidden">
-        <div 
-          style={{ backgroundImage: `url(${data?.imageUrl})` }} 
-          className="relative aspect-square md:aspect-[3.5/1] overflow-hidden bg-cover"
-        >
-          <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">
+      <div className="relative overflow-hidden">
+        <div className="relative aspect-square md:aspect-[3.5/1] overflow-hidden">
+          <Image
+            src={data.imageUrl || '/placeholder.png'}
+            alt={data.label}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-center gap-y-8">
             <div className="font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs text-white">
               {data.label}
             </div>
@@ -48,7 +55,7 @@ const Billboard: React.FC<BillboardProps> = ({
   }
 
   return (
-    <div className="overflow-hidden relative">
+    <div className="relative overflow-hidden">
       <div ref={emblaRef} className="overflow-hidden">
         <div className="flex">
           {data.images.map((image, index) => (
@@ -56,14 +63,18 @@ const Billboard: React.FC<BillboardProps> = ({
               key={index}
               className="flex-[0_0_100%] min-w-0 relative aspect-square md:aspect-[3.5/1] overflow-hidden"
             >
-              <div 
-                style={{ backgroundImage: `url(${image.url})` }}
-                className="w-full h-full bg-cover bg-center transition-opacity duration-500"
-              >
-                <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">
-                  <div className="font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs text-white">
-                    {data.label}
-                  </div>
+              <Image
+                src={image.url || '/placeholder.png'}
+                alt={image.alt || data.label}
+                fill
+                className="object-cover"
+                priority={index === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center gap-y-8">
+                <div className="font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs text-white">
+                  {data.label}
                 </div>
               </div>
             </div>

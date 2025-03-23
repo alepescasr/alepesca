@@ -1,24 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    
     domains: [
-      "tailwindui.com",
       "res.cloudinary.com",
+      "tailwindui.com",
+      "cdn.shopify.com",
       "images.unsplash.com",
-      "encrypted-tbn0.gstatic.com"
+      "ciro-ecommerce-admin.vercel.app"
     ],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
+        hostname: '**'
+      }
+    ]
+  },
+  async rewrites() {
+    return [
       {
-        protocol: 'https',
-        hostname: 'encrypted-tbn0.gstatic.com',
-      },
-    ],
-
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`
+      }
+    ]
+  },
+  experimental: {
+    serverActions: true
   }
 }
 

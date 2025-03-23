@@ -1,21 +1,29 @@
-import ProductList from '@/components/product-list'
-import Gallery from '@/components/gallery';
-import Info from '@/components/info';
-import getProduct from '@/actions/get-product';
-import getProducts from '@/actions/get-products';
-import Container from '@/components/ui/container';
+import getProduct from "@/actions/get-product";
+import getProducts from "@/actions/get-products";
+import ProductList from "@/components/product-list";
+import Container from "@/components/ui/container";
+import Gallery from "@/components/gallery";
+import Info from "@/components/info";
 
-export const revalidate = 0;
+export const revalidate = 3600; // Revalidar cada hora
+
+export async function generateStaticParams() {
+  const products = await getProducts({});
+  
+  return products.map((product) => ({
+    productId: product.id
+  }));
+}
 
 interface ProductPageProps {
   params: {
     productId: string;
-  },
+  };
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ 
-  params
- }) => {
+  params 
+}) => {
   const product = await getProduct(params.productId);
   const suggestedProducts = await getProducts({ 
     categoryId: product?.category?.id

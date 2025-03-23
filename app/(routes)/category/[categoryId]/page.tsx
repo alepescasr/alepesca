@@ -1,10 +1,11 @@
+import getCategory from "@/actions/get-category";
+import getProducts from "@/actions/get-products";
+import getCategories from "@/actions/get-categories";
+
 import Container from "@/components/ui/container";
 import Billboard from "@/components/ui/billboard";
 import ProductCard from "@/components/ui/product-card";
 import NoResults from "@/components/ui/no-results";
-
-import getProducts from "@/actions/get-products";
-import getCategories from "@/actions/get-categories";
 
 import getColors from "@/actions/get-colors";
 
@@ -12,7 +13,15 @@ import Filter from "./components/filter";
 import MobileFilters from "./components/mobile-filters";
 import SearchBar from "@/components/ui/search-bar";
 
-export const revalidate = 0;
+export const revalidate = 3600; // Revalidar cada hora
+
+export async function generateStaticParams() {
+  const categories = await getCategories();
+  
+  return categories.map((category) => ({
+    categoryId: category.id
+  }));
+}
 
 interface CategoryPageProps {
   params: {
@@ -27,18 +36,9 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params,
   searchParams,
 }) => {
-  const categories = await getCategories();
-  const category = categories.find(
-    (cat) => cat.name.toLowerCase() === params.categoryId.toLowerCase()
-  );
-
-  if (!category) {
-    return null;
-  }
-
-  const products = await getProducts({
-    categoryId: category.id,
-    colorId: searchParams.colorId,
+  const category = await getCategory(params.categoryId);
+  const products = await getProducts({ 
+    categoryId: params.categoryId
   });
 
   const colors = await getColors();
@@ -48,15 +48,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
       <Container>
         <div className="relative">
           <Billboard
-            data={
-              /* category.billboard */
-              {
-                id: "1",
-                label: "Productos de Calidad",
-                imageUrl:
-                  "https://www.mendozapost.com/files/image/107/107876/586e5d09f347a.jpg",
-              }
-            }
+            data={category.billboard}
           />
           <div className="absolute -bottom-5 left-0 right-0">
             <SearchBar />

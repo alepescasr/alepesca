@@ -28,6 +28,7 @@ const InstagramFeed = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetch('https://ciro-ecommerce-admin.vercel.app/api/posts');
+        
         const data = await response.json();
         // Ordenar por fecha de creación y tomar los últimos 3
         const sortedPosts = data
@@ -49,7 +50,7 @@ const InstagramFeed = () => {
   if (isLoading) {
     return (
       <div className="w-full py-8 bg-primary-lighter rounded-lg">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 bg-primary-lighter rounded-lg">
           <InstagramHeader />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
@@ -63,7 +64,7 @@ const InstagramFeed = () => {
 
   if (posts.length === 0) {
     return (
-      <div className="w-full py-8 bg-white">
+      <div className="w-full py-8 bg-primary-lighter rounded-lg">
         <div className="container mx-auto px-4">
           <InstagramHeader />
         </div>
@@ -72,7 +73,7 @@ const InstagramFeed = () => {
   }
 
   return (
-    <div className="w-full py-8 bg-white">
+    <div className="w-full py-8 bg-primary-lighter rounded-lg">
       <div className="container mx-auto px-4">
         <InstagramHeader />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
