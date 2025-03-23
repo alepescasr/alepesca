@@ -7,7 +7,7 @@ import { Instagram } from 'lucide-react';
 import { InstagramPost } from '@/types/instagram';
 
 const InstagramHeader = () => (
-  <div className="flex items-center justify-between mb-8">
+  <div className="flex items-center justify-between mb-8 mx-4">
     <h2 className="text-2xl md:text-3xl font-bold">Síguenos en Instagram</h2>
     <Link 
       href="https://www.instagram.com/alepescasr" 
@@ -48,7 +48,7 @@ const InstagramFeed = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full py-8 bg-white">
+      <div className="w-full py-8 bg-primary-lighter rounded-lg">
         <div className="container mx-auto px-4">
           <InstagramHeader />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

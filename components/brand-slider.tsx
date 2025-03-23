@@ -13,27 +13,27 @@ const brands = [
   {
     id: 2,
     name: 'Mauri',
-    logo: '/images/logos/mauri-rb.png'
+    logo: '/images/logos/Apolo.png'
   },
   {
     id: 3,
     name: 'Penn',
-    logo: '/images/logos/krill-rb.png'
+    logo: '/images/logos/Caster.png'
   },
   {
     id: 4,
     name: 'Daiwa',
-    logo: '/images/logos/paraf-rb.png'
+    logo: '/images/logos/Coleman.png'
   },
   {
     id: 5,
     name: 'Abu Garcia',
-    logo: '/images/logos/specimen-rb.png'
+    logo: '/images/logos/Payo.png'
   },
   {
     id: 6,
     name: 'Berkley',
-    logo: '/images/logos/ubermann-rb.png'
+    logo: '/images/logos/tica.png'
   }
 ];
 
