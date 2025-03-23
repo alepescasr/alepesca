@@ -13,6 +13,9 @@ const font = Urbanist({ subsets: ['latin'] })
 export const metadata = {
   title: 'AlePesca',
   description: 'AlePesca - Tu tienda especializada en artículos de pesca deportiva con los mejores productos y marcas del mercado.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
