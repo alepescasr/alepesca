@@ -96,8 +96,8 @@ const Footer = async () => {
           <div className="w-full md:w-1/4 text-center md:text-left">
             <h3 className="text-lg font-semibold mb-4 text-accent">Contacto</h3>
             <div className="space-y-2">
-              <p className="text-primary-lighter">San Rafael, Alajuela</p>
-              <p className="text-primary-lighter">Teléfono: +506 8302-9383</p>
+              <p className="text-primary-lighter"> Av.Libertador 482, San Rafael, Mendoza</p>
+              <p className="text-primary-lighter">Teléfono: +54 9 2604203641</p>
               <p className="text-primary-lighter">Email: alepescacr@gmail.com</p>
             </div>
           </div>
