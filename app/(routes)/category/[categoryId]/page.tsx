@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import getCategory from "@/actions/get-category";
 import getProducts from "@/actions/get-products";
 import getCategories from "@/actions/get-categories";
@@ -16,11 +17,15 @@ import SearchBar from "@/components/ui/search-bar";
 export const revalidate = 3600; // Revalidar cada hora
 
 export async function generateStaticParams() {
-  const categories = await getCategories();
-  
-  return categories.map((category) => ({
-    categoryId: category.id
-  }));
+  try {
+    const categories = await getCategories();
+    return categories.map((category) => ({
+      categoryId: category.id
+    }));
+  } catch (error) {
+    console.error("Error generando parámetros estáticos:", error);
+    return [];
+  }
 }
 
 interface CategoryPageProps {
@@ -37,18 +42,32 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   searchParams,
 }) => {
   const category = await getCategory(params.categoryId);
-  const products = await getProducts({ 
-    categoryId: params.categoryId
-  });
 
+  // Si no se encuentra la categoría, redirigir a 404
+  if (!category) {
+    notFound();
+  }
+
+  const products = await getProducts({ 
+    categoryId: params.categoryId,
+    colorId: searchParams.colorId
+  });
+  console.log(products);
   const colors = await getColors();
+
+  // Crear un objeto billboard usando la información de la categoría
+  const billboardData = {
+    id: category.id,
+    label: category.name,
+    imageUrl: category.imageUrl || '/placeholder.jpg', // Imagen por defecto si no hay imageUrl
+  };
 
   return (
     <div className="bg-white">
       <Container>
         <div className="relative">
           <Billboard
-            data={category.billboard}
+            data={billboardData}
           />
           <div className="absolute -bottom-5 left-0 right-0">
             <SearchBar />

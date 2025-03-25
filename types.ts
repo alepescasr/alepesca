@@ -55,7 +55,11 @@ export interface Image {
 export interface Category {
   id: string;
   name: string;
-  billboard: Billboard;
+  title?: string;
+  imageUrl: string;
+  billboard?: Billboard;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Size {

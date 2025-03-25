@@ -24,7 +24,7 @@ const Footer = async () => {
             </div>
             <div className="flex gap-4 mt-2 justify-center">
               <Link 
-                href="https://www.facebook.com/profile.php?id=100063559680935" 
+                href="https://www.facebook.com/share/1AQehibZzR/?mibextid=wwXIfr" 
                 target="_blank"
                 className="text-primary-lighter hover:text-accent transition-colors duration-300"
                 aria-label="Facebook"
@@ -74,19 +74,19 @@ const Footer = async () => {
             className="w-full md:w-1/4 mb-6 md:mb-0"
           >
             <div className="flex flex-col space-y-2 items-center md:items-start">
-              <Link href="/about" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Sobre Nosotros
               </Link>
-              <Link href="/terms" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Términos y Condiciones
               </Link>
-              <Link href="/privacy" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Política de Privacidad
               </Link>
-              <Link href="/shipping" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Envíos y Devoluciones
               </Link>
-              <Link href="/faq" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Preguntas Frecuentes
               </Link>
             </div>
