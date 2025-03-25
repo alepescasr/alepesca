@@ -98,7 +98,7 @@ const Footer = async () => {
             <div className="space-y-2">
               <p className="text-primary-lighter"> Av.Libertador 482, San Rafael, Mendoza</p>
               <p className="text-primary-lighter">Teléfono: +54 9 2604203641</p>
-              <p className="text-primary-lighter">Email: alepescacr@gmail.com</p>
+              <p className="text-primary-lighter">Email: alepescasr@gmail.com</p>
             </div>
           </div>
         </div>
