@@ -9,15 +9,14 @@ const getCategory = async (id: string): Promise<Category | null> => {
     }
 
     const URL = `${apiUrl}/categories/${id}`;
-    console.log('Fetching category from:', URL); // Debug log
+    console.log('Fetching category from:', URL);
 
     const res = await fetch(URL, {
-      next: { revalidate: 3600 }, // Revalidar cada hora
+      next: { revalidate: 3600 },
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },
-      cache: 'no-store' // Deshabilitar caché para desarrollo
+      }
     });
 
     if (!res.ok) {
@@ -26,10 +25,10 @@ const getCategory = async (id: string): Promise<Category | null> => {
     }
 
     const data = await res.json();
-    console.log('Category response:', data); // Debug log
-    
+    console.log('Category response:', data);
+
     // Validar que la respuesta tenga la estructura esperada
-    if (!data || !data.id || !data.name) {
+    if (!data || !data.id) {
       console.error("Datos de categoría inválidos:", data);
       return null;
     }

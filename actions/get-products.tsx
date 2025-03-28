@@ -34,8 +34,7 @@ const getProducts = async (query: Query): Promise<Product[]> => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },
-      cache: 'no-store' // Deshabilitar caché para desarrollo
+      }
     });
 
     if (!res.ok) {

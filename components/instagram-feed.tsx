@@ -23,22 +23,30 @@ const InstagramHeader = () => (
 const InstagramFeed = () => {
   const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('https://ciro-ecommerce-admin.vercel.app/api/posts');
-        
+        const response = await fetch('/api/instagram');
+        if (!response.ok) {
+          throw new Error('Error al cargar los posts');
+        }
         const data = await response.json();
-        // Ordenar por fecha de creación y tomar los últimos 3
-        const sortedPosts = data
-          .sort((a: InstagramPost, b: InstagramPost) => 
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          )
-          .slice(0, 3);
-        setPosts(sortedPosts);
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        // Ordenar por fecha de creación (más recientes primero)
+        const sortedPosts = data.sort((a: InstagramPost, b: InstagramPost) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        // Tomar solo los últimos 3 posts
+        setPosts(sortedPosts.slice(0, 3));
       } catch (error) {
         console.error('Error fetching Instagram posts:', error);
+        setError(error instanceof Error ? error.message : 'Error al cargar los posts');
       } finally {
         setIsLoading(false);
       }
@@ -54,7 +62,7 @@ const InstagramFeed = () => {
           <InstagramHeader />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="aspect-square bg-gray-200 animate-pulse rounded-lg"></div>
+              <div key={i} className="relative aspect-square bg-gray-200 animate-pulse rounded-lg" />
             ))}
           </div>
         </div>
@@ -62,11 +70,27 @@ const InstagramFeed = () => {
     );
   }
 
-  if (posts.length === 0) {
+  if (error) {
     return (
       <div className="w-full py-8 bg-primary-lighter rounded-lg">
         <div className="container mx-auto px-4">
           <InstagramHeader />
+          <div className="text-center py-8">
+            <p className="text-red-500">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!posts.length) {
+    return (
+      <div className="w-full py-8 bg-primary-lighter rounded-lg">
+        <div className="container mx-auto px-4">
+          <InstagramHeader />
+          <div className="text-center py-8">
+            <p className="text-gray-500">No hay posts disponibles</p>
+          </div>
         </div>
       </div>
     );
@@ -78,7 +102,7 @@ const InstagramFeed = () => {
         <InstagramHeader />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {posts.map((post) => (
-            <a
+            <Link
               key={post.id}
               href={post.link}
               target="_blank"
@@ -87,18 +111,16 @@ const InstagramFeed = () => {
             >
               <Image
                 src={post.imageUrl}
-                alt={post.description}
+                alt={post.description || "Post de Instagram"}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center p-4">
-                  <p className="text-sm line-clamp-4">
-                    {post.description}
-                  </p>
-                </div>
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <p className="text-white text-center p-4 text-sm line-clamp-3">
+                  {post.description}
+                </p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

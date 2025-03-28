@@ -7,6 +7,7 @@ import Container from "@/components/ui/container";
 import Billboard from "@/components/ui/billboard";
 import ProductCard from "@/components/ui/product-card";
 import NoResults from "@/components/ui/no-results";
+import InstagramFeed from "@/components/instagram-feed";
 
 import getColors from "@/actions/get-colors";
 
@@ -14,7 +15,7 @@ import Filter from "./components/filter";
 import MobileFilters from "./components/mobile-filters";
 import SearchBar from "@/components/ui/search-bar";
 
-export const revalidate = 3600; // Revalidar cada hora
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   try {
@@ -41,25 +42,27 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params,
   searchParams,
 }) => {
+  const products = await getProducts({
+    categoryId: params.categoryId,
+  });
+
+  // Obtener la categoría por ID
   const category = await getCategory(params.categoryId);
+  console.log('Fetching category by ID:', params.categoryId);
+  console.log('Category response:', category);
 
   // Si no se encuentra la categoría, redirigir a 404
   if (!category) {
     notFound();
   }
 
-  const products = await getProducts({ 
-    categoryId: params.categoryId,
-    colorId: searchParams.colorId
-  });
-  console.log(products);
   const colors = await getColors();
 
   // Crear un objeto billboard usando la información de la categoría
   const billboardData = {
     id: category.id,
     label: category.name,
-    imageUrl: category.imageUrl || '/placeholder.jpg', // Imagen por defecto si no hay imageUrl
+    imageUrl: category.imageUrl,
   };
 
   return (
@@ -81,12 +84,13 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
               {products.length === 0 && <NoResults />}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {products.map((item) => (
                   <ProductCard key={item.id} data={item} />
                 ))}
               </div>
             </div>
+            <InstagramFeed />
           </div>
         </div>
       </Container>

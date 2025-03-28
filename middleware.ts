@@ -12,8 +12,13 @@ export function middleware(request: NextRequest) {
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
       img-src 'self' data: https: blob:;
+      connect-src 'self' https://ciro-ecommerce-admin.vercel.app;
       font-src 'self';
-      connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL};
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      block-all-mixed-content;
     `.replace(/\s+/g, ' ').trim()
   )
 

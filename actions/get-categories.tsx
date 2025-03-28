@@ -9,15 +9,33 @@ const getCategories = async (): Promise<Category[]> => {
     }
 
     const URL = `${apiUrl}/categories`;
-    const res = await fetch(URL);
+    console.log('Fetching categories from:', URL);
+
+    const res = await fetch(URL, {
+      next: { revalidate: 3600 },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
 
     if (!res.ok) {
-      throw new Error(`Error al obtener categorías: ${res.status}`);
+      console.error(`Error al obtener las categorías: ${res.status}`, await res.text());
+      return [];
     }
 
-    return res.json();
+    const data = await res.json();
+    console.log('Categories response:', data);
+
+    // Validar que la respuesta sea un array
+    if (!Array.isArray(data)) {
+      console.error("Datos de categorías inválidos:", data);
+      return [];
+    }
+
+    return data;
   } catch (error) {
-    console.error("Error al obtener categorías:", error);
+    console.error("Error al obtener las categorías:", error);
     return [];
   }
 };
