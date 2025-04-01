@@ -28,14 +28,8 @@ const ProductPage: React.FC<ProductPageProps> = async ({
 }) => {
   try {
     const product = await getProduct(params.productId);
-    
-    if (!product) {
-      return null;
-    }
-
-    const relatedProducts = await getProducts({
-      categoryId: product.categoryId,
-      isFeatured: true
+    const relatedProducts = await getProducts({ 
+      categoryId: product.category.id 
     });
 
     return (
@@ -55,7 +49,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({
       </div>
     );
   } catch (error) {
-    console.error('Error al cargar la página de producto:', error);
+    console.error('Error al cargar el producto:', error);
     return (
       <div className="bg-white">
         <Container>
