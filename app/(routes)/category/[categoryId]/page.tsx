@@ -1,20 +1,16 @@
 import Container from '@/components/ui/container';
-import Billboard from '@/components/ui/billboard';
-import ProductCard from '@/components/ui/product-card';
-import NoResults from '@/components/ui/no-results';
+import CategoryContent from './components/category-content';
 
 import getProducts from "@/actions/get-products";
-import getCategory from '@/actions/get-category';
 import getColors from '@/actions/get-colors';
 import getCategories from '@/actions/get-categories';
 
-import Filter from './components/filter';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-/* export const revalidate = 0;
- */
 interface CategoryPageProps {
   params: {
-    categoryId: string; // Este será el nombre de la categoría
+    categoryId: string;
   }
 }
 
@@ -25,13 +21,14 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     console.log('Cargando categoría:', params.categoryId);
     
     const categories = await getCategories();
-    // Buscamos la categoría por nombre (case insensitive)
+    // Convertimos el slug de la URL a un formato comparable con el nombre
+    const categoryName = params.categoryId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     const category = categories.find((item) => 
-      item.name.toLowerCase() === params.categoryId.toLowerCase()
+      item.name.toLowerCase() === categoryName.toLowerCase()
     );
     
     if (!category) {
-      console.error('Categoría no encontrada:', params.categoryId);
+      console.error('Categoría no encontrada:', categoryName);
       return (
         <div className="bg-white">
           <Container>
@@ -53,7 +50,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
       getColors()
     ]);
 
-    // Crear el objeto billboard con la imagen de la categoría
     const billboardData = {
       id: category.id,
       label: category.name,
@@ -63,26 +59,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     return (
       <div className="bg-white">
         <Container>
-          <Billboard data={billboardData} />
-          <div className="px-4 sm:px-6 lg:px-8 pb-24">
-            <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
-              <div className="hidden lg:block">
-                <Filter 
-                  valueKey="colorId" 
-                  name="Colores" 
-                  data={colors}
-                />
-              </div>
-              <div className="mt-6 lg:col-span-4 lg:mt-0">
-                {products.length === 0 && <NoResults />}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {products.map((item) => (
-                    <ProductCard key={item.id} data={item} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <CategoryContent 
+            products={products}
+            colors={colors}
+            billboardData={billboardData}
+          />
         </Container>
       </div>
     );

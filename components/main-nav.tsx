@@ -16,10 +16,10 @@ const MainNav: React.FC<MainNavProps> = ({
   const pathname = usePathname();
 
   const routes = data.map((route) => ({
-    href: `/category/${route.name.toLowerCase()}`,
+    href: `/category/${route.name.toLowerCase().replace(/\s+/g, '-')}`,
     label: route.name,
     categoryId: route.id,
-    active: pathname === `/category/${route.name.toLowerCase()}`,
+    active: pathname === `/category/${route.name.toLowerCase().replace(/\s+/g, '-')}`,
   }));
 
   return (
