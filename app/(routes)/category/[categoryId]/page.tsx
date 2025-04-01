@@ -10,8 +10,8 @@ import getCategories from '@/actions/get-categories';
 
 import Filter from './components/filter';
 
-export const revalidate = 0;
-
+/* export const revalidate = 0;
+ */
 interface CategoryPageProps {
   params: {
     categoryId: string; // Este será el nombre de la categoría

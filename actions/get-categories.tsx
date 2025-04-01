@@ -12,7 +12,8 @@ const getCategories = async (): Promise<Category[]> => {
     console.log('Fetching categories from:', URL);
 
     const res = await fetch(URL, {
-      next: { revalidate: 3600 },
+      /* next: { revalidate: 3600 }, */
+      cache: 'no-store',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

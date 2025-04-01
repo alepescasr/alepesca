@@ -26,7 +26,8 @@ const getProducts = async (query: Query): Promise<Product[]> => {
     console.log('Fetching products from:', url);
 
     const res = await fetch(url, {
-      next: { revalidate: 3600 },
+      /* next: { revalidate: 3600 }, */
+      cache: 'no-store',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

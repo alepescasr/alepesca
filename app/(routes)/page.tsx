@@ -7,7 +7,7 @@ import getBillboard from "@/actions/get-billboard";
 import getProducts from "@/actions/get-products";
 import InstagramFeed from "@/components/instagram-feed";
 
-export const revalidate = 0;
+/* export const revalidate = 0; */
 
 const HomePage = async () => {
   // Comentar la obtención de datos original

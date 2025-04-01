@@ -12,7 +12,8 @@ const getBillboard = async (id: string): Promise<Billboard | null> => {
     console.log('Fetching billboard from:', URL); // Debug log
 
     const res = await fetch(URL, {
-      next: { revalidate: 3600 }, // Revalidar cada hora
+      /* next: { revalidate: 3600 }, // Revalidar cada hora */
+      cache: 'no-store',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

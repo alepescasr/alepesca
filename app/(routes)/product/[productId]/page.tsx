@@ -5,8 +5,8 @@ import Container from "@/components/ui/container";
 import Gallery from "@/components/gallery";
 import Info from "@/components/info";
 
-export const revalidate = 3600; // Revalidar cada hora
-
+/* export const revalidate = 3600; // Revalidar cada hora
+ */
 export async function generateStaticParams() {
   const products = await getProducts({});
   
