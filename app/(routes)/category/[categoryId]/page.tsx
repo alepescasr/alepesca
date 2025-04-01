@@ -6,7 +6,6 @@ import getColors from '@/actions/get-colors';
 import getCategories from '@/actions/get-categories';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 interface CategoryPageProps {
   params: {
