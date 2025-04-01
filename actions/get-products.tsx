@@ -1,36 +1,32 @@
 import { Product } from "@/types";
 import qs from "query-string";
 
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+
 interface Query {
   categoryId?: string;
   colorId?: string;
+  /* sizeId?: string; */
   isFeatured?: boolean;
+  hasOffer?: boolean;
 }
 
 const getProducts = async (query: Query): Promise<Product[]> => {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("API URL no está definida");
-      return [];
-    }
-
-    const URL = `${apiUrl}/products`;
-    
-    // Construir la URL con los parámetros de consulta
     const url = qs.stringifyUrl({
       url: URL,
-      query: {
-        categoryId: query.categoryId,
+      query: { 
         colorId: query.colorId,
+        categoryId: query.categoryId,
         isFeatured: query.isFeatured,
+        hasOffer: query.hasOffer,
       },
     });
 
-    console.log('Fetching products from:', url); // Debug log
+    console.log('Fetching products from:', url);
 
     const res = await fetch(url, {
-      next: { revalidate: 3600 }, // Revalidar cada hora
+      next: { revalidate: 3600 },
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -38,22 +34,56 @@ const getProducts = async (query: Query): Promise<Product[]> => {
     });
 
     if (!res.ok) {
-      console.error(`Error al obtener productos: ${res.status}`, await res.text());
+      console.error(`Error al obtener los productos: ${res.status}`);
       return [];
     }
 
     const data = await res.json();
-    console.log('Products response:', data); // Debug log
+    console.log('Productos recibidos:', data);
 
-    // Validar que la respuesta sea un array
-    if (!Array.isArray(data)) {
-      console.error("Respuesta inválida de productos:", data);
-      return [];
+    // Si la respuesta es un array, lo filtramos según los criterios
+    if (Array.isArray(data)) {
+      let filteredProducts = data;
+
+      // Filtrar por isFeatured si está especificado
+      if (query.isFeatured !== undefined) {
+        filteredProducts = filteredProducts.filter(product => product.isFeatured === query.isFeatured);
+      }
+
+      // Filtrar por hasOffer si está especificado
+      if (query.hasOffer !== undefined) {
+        filteredProducts = filteredProducts.filter(product => product.hasOffer === query.hasOffer);
+      }
+
+      console.log('Productos filtrados:', filteredProducts.length);
+      return filteredProducts;
     }
 
-    return data;
+    // Si la respuesta es un objeto con una propiedad que contiene el array
+    if (typeof data === 'object' && data !== null) {
+      const productsArray = Object.values(data).find(value => Array.isArray(value));
+      if (productsArray) {
+        let filteredProducts = productsArray as Product[];
+
+        // Filtrar por isFeatured si está especificado
+        if (query.isFeatured !== undefined) {
+          filteredProducts = filteredProducts.filter(product => product.isFeatured === query.isFeatured);
+        }
+
+        // Filtrar por hasOffer si está especificado
+        if (query.hasOffer !== undefined) {
+          filteredProducts = filteredProducts.filter(product => product.hasOffer === query.hasOffer);
+        }
+
+        console.log('Productos filtrados:', filteredProducts.length);
+        return filteredProducts;
+      }
+    }
+
+    console.error('Formato de respuesta inesperado:', data);
+    return [];
   } catch (error) {
-    console.error("Error al obtener productos:", error);
+    console.error("Error al obtener los productos:", error);
     return [];
   }
 };

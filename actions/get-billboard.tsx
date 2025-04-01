@@ -1,4 +1,4 @@
-import { Billboard } from "@/types";
+ import { Billboard } from "@/types";
 
 const getBillboard = async (id: string): Promise<Billboard | null> => {
   try {
@@ -23,6 +23,13 @@ const getBillboard = async (id: string): Promise<Billboard | null> => {
       console.error(`Error al obtener el billboard: ${res.status}`, await res.text());
       return null;
     }
+    if (res.status === 404) {
+      //cargar imagen de imágenes/billboard-default.jpg
+      const defaultImage = await fetch('/images/billboard-default.jpg');
+      const defaultImageData = await defaultImage.json();
+      return defaultImageData;
+    }
+
 
     const data = await res.json();
     console.log('Billboard response:', data); // Debug log
