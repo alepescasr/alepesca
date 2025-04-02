@@ -6,6 +6,7 @@ import Container from "@/components/ui/container";
 import getBillboard from "@/actions/get-billboard"; 
 import getProducts from "@/actions/get-products";
 import InstagramFeed from "@/components/instagram-feed";
+import BrandSlider from "@/components/brand-slider";
 
 /* export const revalidate = 0; */
 
@@ -30,7 +31,11 @@ const HomePage = async () => {
     <Container>
       <div className="space-y-10 pb-10">
         <Billboard data={billboard} />
-        <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col mt-auto mb-3 px-4 sm:px-6 lg:px-8">
+          <BrandSlider/>
+        </div>
+        {/* Categorias */}
+        <div className="flex flex-col mt-auto px-4 sm:px-6 lg:px-8">
           <CategoryCards />
         </div>
         

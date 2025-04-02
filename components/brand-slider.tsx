@@ -35,7 +35,7 @@ const brands = [
     name: 'Berkley',
     logo: '/images/logos/tica.png'
   }
-];
+]
 
 const BrandSlider = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -58,7 +58,7 @@ const BrandSlider = () => {
   }, [emblaApi]);
 
   return (
-    <div className="w-full bg-transparent">
+    <div className="w-full bg-transparent py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
@@ -68,15 +68,15 @@ const BrandSlider = () => {
               return (
                 <div
                   key={`${brand.id}-${index}`}
-                  className="flex-[0_0_calc(50%-1rem)] md:flex-[0_0_200px] mx-2 md:mx-6"
+                  className="flex-[0_0_calc(50%-1rem)] md:flex-[0_0_180px] mx-2 md:mx-4"
                 >
-                  <div className={`relative grayscale hover:grayscale-0 transition-all duration-300 ${needsLargerSize ? 'h-20 md:h-24' : 'h-16 md:h-20'}`}>
+                  <div className={`relative grayscale hover:grayscale-0 transition-all duration-300 ${needsLargerSize ? 'h-14 md:h-16' : 'h-12 md:h-14'}`}>
                     <Image
                       src={brand.logo}
                       alt={brand.name}
                       fill
                       className="object-contain"
-                      sizes="(max-width: 768px) 50vw, 200px"
+                      sizes="(max-width: 768px) 50vw, 180px"
                     />
                   </div>
                 </div>

@@ -143,12 +143,6 @@ const ShippingPayment = ({
               {paymentMethod === 'transfer' && !showQR && (
                 <div className="text-sm text-gray-600 space-y-4">
                   <p>Paga fácilmente usando Mercado Pago:</p>
-                  <button
-                    onClick={handleInitiatePayment}
-                    className="w-full bg-accent text-white py-3 px-4 rounded-md hover:bg-accent-dark transition-colors text-lg font-medium"
-                  >
-                    Pagar ${totalAmount.toLocaleString()}
-                  </button>
                 </div>
               )}
               {paymentMethod === 'transfer' && showQR && (

@@ -29,7 +29,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     if (!category) {
       console.error('Categoría no encontrada:', categoryName);
       return (
-        <div className="bg-white">
+        <div className="bg-primary-lighter/30">
           <Container>
             <div className="px-4 sm:px-6 lg:px-8 pb-24">
               <div className="text-center">

@@ -192,20 +192,25 @@ const Summary: React.FC<SummaryProps> = ({
             </h3>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-600">Banco:</p>
-                <p className="text-lg font-semibold text-gray-900">Banco Nación</p>
+                <p className="text-sm text-gray-600">Tipo:</p>
+                <p className="text-lg font-semibold text-gray-900">Mercado Pago</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600">Tipo de cuenta:</p>
-                <p className="text-lg font-semibold text-gray-900">Cuenta Corriente</p>
+                <p className="text-sm text-gray-600">Alias de Mercado Pago:</p>
+                <p className="text-lg font-semibold text-gray-900">alepescasr.mp</p>
               </div>
-              <div>
-                <p className="text-sm text-gray-600">CBU:</p>
-                <p className="text-lg font-semibold text-gray-900">1234567890123456789012</p>
-              </div>
+              
               <div>
                 <p className="text-sm text-gray-600">Titular:</p>
-                <p className="text-lg font-semibold text-gray-900">Nombre del Titular</p>
+                <p className="text-lg font-semibold text-gray-900">Alejandro Pescar</p>
+              </div>
+              <div className="relative w-full h-48">
+                <Image 
+                  src="/images/qr-mercadopago.png" 
+                  alt="QR de Mercado Pago" 
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div className="bg-yellow-50 p-4 rounded-md">
                 <p className="text-sm text-yellow-800">

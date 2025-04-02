@@ -52,7 +52,7 @@ const CartPage = () => {
   }
 
   return (  
-    <div className="bg-white">
+    <div className="bg-primary-lighter/30">
       <Container>
         <div className="px-4 py-16 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-black">Carrito de Compras</h1>
