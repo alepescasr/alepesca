@@ -1,4 +1,5 @@
 import { Category } from "@/types";
+import axios from "axios";
 
 const getCategories = async (): Promise<Category[]> => {
   try {
@@ -9,24 +10,12 @@ const getCategories = async (): Promise<Category[]> => {
     }
 
     const URL = `${apiUrl}/categories`;
-    console.log('Fetching categories from:', URL);
+    console.log("Fetching categories from:", URL);
 
-    const res = await fetch(URL, {
-      /* next: { revalidate: 3600 }, */
-      cache: 'no-store',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
+    const response = await axios.get(URL);
+    const data = response.data;
 
-    if (!res.ok) {
-      console.error(`Error al obtener las categorías: ${res.status}`, await res.text());
-      return [];
-    }
-
-    const data = await res.json();
-    console.log('Categories response:', data);
+    console.log("Categories response:", data);
 
     // Validar que la respuesta sea un array
     if (!Array.isArray(data)) {
@@ -42,4 +31,3 @@ const getCategories = async (): Promise<Category[]> => {
 };
 
 export default getCategories;
-

@@ -1,5 +1,6 @@
 import { Product } from "@/types";
 import qs from "query-string";
+import axios from "axios";
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
@@ -15,7 +16,7 @@ const getProducts = async (query: Query): Promise<Product[]> => {
   try {
     const url = qs.stringifyUrl({
       url: URL,
-      query: { 
+      query: {
         colorId: query.colorId,
         categoryId: query.categoryId,
         isFeatured: query.isFeatured,
@@ -23,24 +24,12 @@ const getProducts = async (query: Query): Promise<Product[]> => {
       },
     });
 
-    console.log('Fetching products from:', url);
+    console.log("Fetching products from:", url);
 
-    const res = await fetch(url, {
-      /* next: { revalidate: 3600 }, */
-      cache: 'no-store',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
+    const response = await axios.get(url);
+    const data = response.data;
 
-    if (!res.ok) {
-      console.error(`Error al obtener los productos: ${res.status}`);
-      return [];
-    }
-
-    const data = await res.json();
-    console.log('Productos recibidos:', data);
+    console.log("Productos recibidos:", data);
 
     // Si la respuesta es un array, lo filtramos según los criterios
     if (Array.isArray(data)) {
@@ -48,40 +37,50 @@ const getProducts = async (query: Query): Promise<Product[]> => {
 
       // Filtrar por isFeatured si está especificado
       if (query.isFeatured !== undefined) {
-        filteredProducts = filteredProducts.filter(product => product.isFeatured === query.isFeatured);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.isFeatured === query.isFeatured
+        );
       }
 
       // Filtrar por hasOffer si está especificado
       if (query.hasOffer !== undefined) {
-        filteredProducts = filteredProducts.filter(product => product.hasOffer === query.hasOffer);
+        filteredProducts = filteredProducts.filter(
+          (product) => product.hasOffer === query.hasOffer
+        );
       }
 
-      console.log('Productos filtrados:', filteredProducts.length);
+      console.log("Productos filtrados:", filteredProducts.length);
       return filteredProducts;
     }
 
     // Si la respuesta es un objeto con una propiedad que contiene el array
-    if (typeof data === 'object' && data !== null) {
-      const productsArray = Object.values(data).find(value => Array.isArray(value));
+    if (typeof data === "object" && data !== null) {
+      const productsArray = Object.values(data).find((value) =>
+        Array.isArray(value)
+      );
       if (productsArray) {
         let filteredProducts = productsArray as Product[];
 
         // Filtrar por isFeatured si está especificado
         if (query.isFeatured !== undefined) {
-          filteredProducts = filteredProducts.filter(product => product.isFeatured === query.isFeatured);
+          filteredProducts = filteredProducts.filter(
+            (product) => product.isFeatured === query.isFeatured
+          );
         }
 
         // Filtrar por hasOffer si está especificado
         if (query.hasOffer !== undefined) {
-          filteredProducts = filteredProducts.filter(product => product.hasOffer === query.hasOffer);
+          filteredProducts = filteredProducts.filter(
+            (product) => product.hasOffer === query.hasOffer
+          );
         }
 
-        console.log('Productos filtrados:', filteredProducts.length);
+        console.log("Productos filtrados:", filteredProducts.length);
         return filteredProducts;
       }
     }
 
-    console.error('Formato de respuesta inesperado:', data);
+    console.error("Formato de respuesta inesperado:", data);
     return [];
   } catch (error) {
     console.error("Error al obtener los productos:", error);

@@ -1,4 +1,5 @@
- import { Billboard } from "@/types";
+import { Billboard } from "@/types";
+import axios from "axios";
 
 const getBillboard = async (id: string): Promise<Billboard | null> => {
   try {
@@ -9,31 +10,12 @@ const getBillboard = async (id: string): Promise<Billboard | null> => {
     }
 
     const URL = `${apiUrl}/billboards/${id}`;
-    console.log('Fetching billboard from:', URL); // Debug log
+    console.log("Fetching billboard from:", URL); // Debug log
 
-    const res = await fetch(URL, {
-      /* next: { revalidate: 3600 }, // Revalidar cada hora */
-      cache: 'no-store',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
+    const response = await axios.get(URL);
+    const data = response.data;
 
-    if (!res.ok) {
-      console.error(`Error al obtener el billboard: ${res.status}`, await res.text());
-      return null;
-    }
-    if (res.status === 404) {
-      //cargar imagen de imágenes/billboard-default.jpg
-      const defaultImage = await fetch('/images/billboard-default.jpg');
-      const defaultImageData = await defaultImage.json();
-      return defaultImageData;
-    }
-
-
-    const data = await res.json();
-    console.log('Billboard response:', data); // Debug log
+    console.log("Billboard response:", data); // Debug log
 
     // Validar que la respuesta tenga la estructura esperada
     if (!data || !data.id) {

@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Instagram } from 'lucide-react';
-import { InstagramPost } from '@/types/instagram';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Instagram } from "lucide-react";
+import { InstagramPost } from "@/types/instagram";
+import axios from "axios";
 
 const InstagramHeader = () => (
   <div className="flex items-center justify-between mb-8 mx-4">
     <h2 className="text-2xl md:text-3xl font-bold">Síguenos en Instagram</h2>
-    <Link 
-      href="https://www.instagram.com/alepescasr" 
+    <Link
+      href="https://www.instagram.com/alepescasr"
       target="_blank"
       className="flex items-center gap-2 text-primary hover:text-primary-dark hover:underline hover:scale-125 transition-all duration-500"
     >
@@ -28,25 +29,25 @@ const InstagramFeed = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/instagram');
-        if (!response.ok) {
-          throw new Error('Error al cargar los posts');
-        }
-        const data = await response.json();
-        
+        const response = await axios.get("/api/instagram");
+        const data = response.data;
+
         if (data.error) {
           throw new Error(data.error);
         }
 
         // Ordenar por fecha de creación (más recientes primero)
-        const sortedPosts = data.sort((a: InstagramPost, b: InstagramPost) => 
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        const sortedPosts = data.sort(
+          (a: InstagramPost, b: InstagramPost) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         // Tomar solo los últimos 3 posts
         setPosts(sortedPosts.slice(0, 3));
       } catch (error) {
-        console.error('Error fetching Instagram posts:', error);
-        setError(error instanceof Error ? error.message : 'Error al cargar los posts');
+        console.error("Error fetching Instagram posts:", error);
+        setError(
+          error instanceof Error ? error.message : "Error al cargar los posts"
+        );
       } finally {
         setIsLoading(false);
       }
@@ -62,7 +63,10 @@ const InstagramFeed = () => {
           <InstagramHeader />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="relative aspect-square bg-gray-200 animate-pulse rounded-lg" />
+              <div
+                key={i}
+                className="relative aspect-square bg-gray-200 animate-pulse rounded-lg"
+              />
             ))}
           </div>
         </div>
@@ -128,4 +132,4 @@ const InstagramFeed = () => {
   );
 };
 
-export default InstagramFeed; 
+export default InstagramFeed;
