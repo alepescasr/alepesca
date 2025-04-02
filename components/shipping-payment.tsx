@@ -5,18 +5,21 @@ import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import useCart from '@/hooks/use-cart';
 import axios from 'axios';
+import { FormValues } from "@/app/(routes)/cart/components/form-client-info";
 
 interface ShippingPaymentProps {
   onShippingChange: (cost: number) => void;
   onPaymentMethodChange: (method: string) => void;
   totalAmount: number;
+  clientInfo: FormValues | null;
 }
 
-const ShippingPayment: React.FC<ShippingPaymentProps> = ({
+const ShippingPayment = ({
   onShippingChange,
   onPaymentMethodChange,
-  totalAmount
-}) => {
+  totalAmount,
+  clientInfo
+}: ShippingPaymentProps) => {
   const [selectedShipping, setSelectedShipping] = useState('pickup');
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [showQR, setShowQR] = useState(false);
@@ -198,6 +201,23 @@ const ShippingPayment: React.FC<ShippingPaymentProps> = ({
           </label>
         </div>
       </div>
+
+      {!clientInfo && (
+        <div className="rounded-md bg-yellow-50 p-4">
+          <div className="flex">
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-yellow-800">
+                Información de envío incompleta
+              </h3>
+              <div className="mt-2 text-sm text-yellow-700">
+                <p>
+                  Por favor, completa la información de envío antes de proceder con el pago.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

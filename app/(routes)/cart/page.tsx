@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import Container from "@/components/ui/container";
 import useCart from "@/hooks/use-cart";
+import FormClientInfo, { FormValues } from "./components/form-client-info";
 
 import Summary from "./components/summary";
 import CartItem from "./components/cart-item";
@@ -16,6 +17,7 @@ const CartPage = () => {
   const [shippingCost, setShippingCost] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [totalAmount, setTotalAmount] = useState(0);
+  const [clientInfo, setClientInfo] = useState<FormValues | null>(null);
   const cart = useCart();
 
   useEffect(() => {
@@ -72,12 +74,20 @@ const CartPage = () => {
                   
                   <div className="mt-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                      Información de envío
+                    </h2>
+                    <FormClientInfo onFormDataChange={setClientInfo} />
+                  </div>
+
+                  <div className="mt-8">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
                       Opciones de envío y pago
                     </h2>
                     <ShippingPayment 
                       onShippingChange={setShippingCost}
                       onPaymentMethodChange={setPaymentMethod}
                       totalAmount={totalAmount}
+                      clientInfo={clientInfo}
                     />
                   </div>
                 </>
@@ -87,6 +97,7 @@ const CartPage = () => {
               shippingCost={shippingCost}
               paymentMethod={paymentMethod}
               onTotalChange={setTotalAmount}
+              clientInfo={clientInfo}
             />
           </div>
         </div>
