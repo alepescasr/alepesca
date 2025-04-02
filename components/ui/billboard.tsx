@@ -63,7 +63,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
   // Si no hay datos, mostrar una imagen por defecto
   if (!data) {
     return (
-      <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
+      <div className="relative w-full h-[400px] overflow-hidden ">
         <Image
           src="/images/placeholder-billboard.jpg"
           alt="Imagen por defecto"
@@ -78,7 +78,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
   // Si no hay imágenes múltiples, usa la imageUrl tradicional
   if (!data.images || data.images.length === 0) {
     return (
-      <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
+      <div className="relative w-full h-[400px] overflow-hidden ">
         <Image
           src={data.imageUrl || '/images/placeholder-billboard.jpeg'}
           alt={data.label || 'Imagen por defecto'}
@@ -92,7 +92,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
 
   // Renderizar carrusel para múltiples imágenes
   return (
-    <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
+    <div className="relative w-full h-[400px] overflow-hidden">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {data.images.map((image, index) => (

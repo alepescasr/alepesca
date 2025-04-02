@@ -36,7 +36,7 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
   }, [searchProducts]);
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md pt-3">
       <div className="relative">
         <input
           type="text"
