@@ -5,7 +5,7 @@ import Info from '@/components/info';
 import getProduct from '@/actions/get-product';
 import getProducts from '@/actions/get-products';
 
-export const dynamic = 'force-dynamic';
+/*export const dynamic = 'force-dynamic';  */
 
 /* export const revalidate = 3600; // Revalidar cada hora
  */
