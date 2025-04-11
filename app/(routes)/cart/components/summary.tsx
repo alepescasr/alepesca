@@ -241,16 +241,16 @@ const Summary: React.FC<SummaryProps> = ({
             Confirmar transferencia
           </Button>
         ) : (
-          <Button
-            onClick={onCheckout}
+        <Button
+          onClick={onCheckout}
             disabled={items.length === 0 || !clientInfo}
             className="w-full"
-          >
+        >
             {!clientInfo 
               ? "Complete la información de envío" 
               : "Continuar con el pago"}
-          </Button>
-        )}
+        </Button>
+      )}
       </div>
     </div>
   );
