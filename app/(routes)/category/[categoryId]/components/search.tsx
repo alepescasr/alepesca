@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDebounce } from 'use-debounce';
 import { Product } from '@/types';
+import { SearchIcon } from 'lucide-react';
+
 
 interface SearchProps {
   products: Product[];
@@ -42,9 +44,10 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="🔍 Buscar productos..."
+          placeholder=" Buscar productos..."
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
         />
+        <SearchIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
       </div>
     </div>
   );

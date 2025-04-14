@@ -86,6 +86,8 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
           className=" lg:object-cover xl:object-cover"
           priority
         />
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-primary-lighter/90"></div>
+
       </div>
     );
   }

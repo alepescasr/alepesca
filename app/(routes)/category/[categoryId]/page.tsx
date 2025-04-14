@@ -56,7 +56,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
     };
 
     return (
-      <div className="bg-primary-lighter">
+      <div className="bg-primary-lighter/30">
         <Container>
           <CategoryContent 
             products={products}
@@ -69,7 +69,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   } catch (error) {
     console.error('Error al cargar la página de categoría:', error);
     return (
-      <div className="bg-primary-lighter">
+      <div className="bg-primary-lighter/30">
         <Container>
           <div className="px-4 sm:px-6 lg:px-8 pb-24">
             <div className="text-center">

@@ -26,7 +26,7 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
   return (
-    <div className="bg-primary-lighter">
+    <div className="bg-primary-lighter/30">
       <Billboard data={billboardData} />
       <div className="px-4 sm:px-6 lg:px-8 pb-24">
         <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
