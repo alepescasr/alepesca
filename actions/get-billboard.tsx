@@ -10,12 +10,12 @@ const getBillboard = async (id: string): Promise<Billboard | null> => {
     }
 
     const URL = `${apiUrl}/billboards/${id}`;
-    console.log("Fetching billboard from:", URL); // Debug log
+   
 
     const response = await axios.get(URL);
     const data = response.data;
 
-    console.log("Billboard response:", data); // Debug log
+   
 
     // Validar que la respuesta tenga la estructura esperada
     if (!data || !data.id) {

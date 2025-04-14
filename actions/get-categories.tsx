@@ -1,5 +1,6 @@
 import { Category } from "@/types";
 import axios from "axios";
+import getProducts from "./get-products";
 
 const getCategories = async (): Promise<Category[]> => {
   try {
@@ -10,12 +11,12 @@ const getCategories = async (): Promise<Category[]> => {
     }
 
     const URL = `${apiUrl}/categories`;
-    console.log("Fetching categories from:", URL);
+    
 
     const response = await axios.get(URL);
     const data = response.data;
 
-    console.log("Categories response:", data);
+    
 
     // Validar que la respuesta sea un array
     if (!Array.isArray(data)) {
@@ -23,7 +24,16 @@ const getCategories = async (): Promise<Category[]> => {
       return [];
     }
 
-    return data;
+    // Filtrar categorías que tienen productos
+    const categoriesWithProducts = await Promise.all(
+      data.map(async (category) => {
+        const products = await getProducts({ categoryId: category.id });
+        return products.length > 0 ? category : null;
+      })
+    );
+
+    // Filtrar las categorías nulas y devolver solo las que tienen productos
+    return categoriesWithProducts.filter((category): category is Category => category !== null);
   } catch (error) {
     console.error("Error al obtener las categorías:", error);
     return [];

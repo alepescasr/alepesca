@@ -10,7 +10,6 @@ import MobileMenu from "@/components/mobile-menu";
 
 const Navbar = async () => {
   const categories = await getCategories();
-  console.log(categories);
 
   return ( 
     <div className="border-b bg-primary">

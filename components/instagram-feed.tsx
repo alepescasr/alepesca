@@ -32,7 +32,7 @@ const InstagramFeed = () => {
     const fetchPosts = async () => {
       try {
         const instagramData = await getInstagram();
-        console.log(instagramData);
+        
         
         // Ordenar por fecha de creación (más recientes primero)
         const sortedPosts = instagramData.sort(

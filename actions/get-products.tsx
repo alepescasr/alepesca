@@ -24,12 +24,12 @@ const getProducts = async (query: Query): Promise<Product[]> => {
       },
     });
 
-    console.log("Fetching products from:", url);
+    
 
     const response = await axios.get(url);
     const data = response.data;
 
-    console.log("Productos recibidos:", data);
+   
 
     // Si la respuesta es un array, lo filtramos según los criterios
     if (Array.isArray(data)) {
@@ -49,7 +49,7 @@ const getProducts = async (query: Query): Promise<Product[]> => {
         );
       }
 
-      console.log("Productos filtrados:", filteredProducts.length);
+      
       return filteredProducts;
     }
 
@@ -75,7 +75,7 @@ const getProducts = async (query: Query): Promise<Product[]> => {
           );
         }
 
-        console.log("Productos filtrados:", filteredProducts.length);
+       
         return filteredProducts;
       }
     }

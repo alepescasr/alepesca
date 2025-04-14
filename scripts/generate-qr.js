@@ -25,6 +25,5 @@ QRCode.toFile(
   },
   function (err) {
     if (err) throw err;
-    console.log('QR generado exitosamente');
   }
 ); 

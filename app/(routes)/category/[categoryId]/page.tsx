@@ -17,7 +17,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params 
 }) => {
   try {
-    console.log('Cargando categoría:', params.categoryId);
+    
     
     const categories = await getCategories();
     // Convertimos el slug de la URL a un formato comparable con el nombre
@@ -42,7 +42,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
       );
     }
 
-    console.log('Categoría encontrada:', category);
+   
     
     const [products, colors] = await Promise.all([
       getProducts({ categoryId: category.id }),

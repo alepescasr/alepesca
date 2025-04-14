@@ -129,7 +129,7 @@ const Summary: React.FC<SummaryProps> = ({
       createdAt: new Date().toISOString()
     };
 
-    console.log("Datos del pedido:", JSON.stringify(orderData, null, 2));
+    
     toast.success("¡Pedido confirmado! Por favor, envía el comprobante por WhatsApp.");
     removeAll();
   };
