@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
 import { InstagramPost } from "@/types/instagram";
+import getInstagram from "@/actions/get-instagram";
+
 import axios from "axios";
 
 const InstagramHeader = () => (
@@ -29,15 +31,11 @@ const InstagramFeed = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("/api/instagram");
-        const data = response.data;
-
-        if (data.error) {
-          throw new Error(data.error);
-        }
-
+        const instagramData = await getInstagram();
+        console.log(instagramData);
+        
         // Ordenar por fecha de creación (más recientes primero)
-        const sortedPosts = data.sort(
+        const sortedPosts = instagramData.sort(
           (a: InstagramPost, b: InstagramPost) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
