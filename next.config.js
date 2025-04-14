@@ -6,7 +6,7 @@ const nextConfig = {
       "tailwindui.com",
       "cdn.shopify.com",
       "images.unsplash.com",
-      "ciro-ecommerce-admin.vercel.app",
+      "admin.alepescasr.com",
       "gifgifs.com",
     ],
     remotePatterns: [
