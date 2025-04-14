@@ -114,7 +114,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
                 src={banner.imageUrl}
                 alt={banner.title}
                 fill
-                className="object-cover"
+                className=" md:object-cover lg:object-cover xl:object-cover"
                 priority={banner.order === 1}
               />
             </div>
