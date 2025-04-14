@@ -162,7 +162,7 @@ const ShippingPayment = ({
                     <h4 className="font-medium text-gray-900 mb-2">Información importante:</h4>
                     <div className="space-y-2 text-gray-600 mb-4">
                       <p><span className="font-medium">Número de orden:</span> {orderId}</p>
-                      <p><span className="font-medium">Monto a pagar:</span> ₡{totalAmount.toLocaleString()}</p>
+                      <p><span className="font-medium">Monto a pagar:</span> ${totalAmount.toLocaleString()}</p>
                     </div>
                     <h4 className="font-medium text-gray-900 mb-2">Pasos para completar tu compra:</h4>
                     <ol className="list-decimal list-inside space-y-2 text-gray-600">
