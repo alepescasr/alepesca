@@ -95,7 +95,7 @@ const ShippingPayment = ({
                 </div>
               </div>
               <span className="font-medium">
-                {option.price === 0 ? 'Gratis' : `₡${option.price.toLocaleString()}`}
+                {option.price === 0 ? 'Gratis' : `$${option.price.toLocaleString()}`}
               </span>
             </label>
           ))}
