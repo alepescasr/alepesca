@@ -12,7 +12,8 @@ export function middleware(request: NextRequest) {
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
       img-src 'self' data: https: blob:;
-      connect-src 'self' https://ciro-ecommerce-admin.vercel.app;
+      connect-src 'self' https://admin.alepescasr.com ws://localhost:* ws://127.0.0.1:*;
+      
       font-src 'self';
       object-src 'none';
       base-uri 'self';
