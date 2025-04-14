@@ -6,27 +6,40 @@ const nextConfig = {
       "tailwindui.com",
       "cdn.shopify.com",
       "images.unsplash.com",
-      "ciro-ecommerce-admin.vercel.app",
-      "gifgifs.com"
+      "admin.alepescasr.com",
+      "gifgifs.com",
     ],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**'
-      }
-    ]
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
   },
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`
-      }
-    ]
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
+    ];
   },
   experimental: {
-    serverActions: true
-  }
-}
+    serverActions: true,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

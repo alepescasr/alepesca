@@ -1,12 +1,14 @@
-import getProduct from "@/actions/get-product";
-import getProducts from "@/actions/get-products";
-import ProductList from "@/components/product-list";
-import Container from "@/components/ui/container";
-import Gallery from "@/components/gallery";
-import Info from "@/components/info";
+import Container from '@/components/ui/container';
+import ProductList from '@/components/product-list';
+import Gallery from '@/components/gallery';
+import Info from '@/components/info';
+import getProduct from '@/actions/get-product';
+import getProducts from '@/actions/get-products';
 
-export const revalidate = 3600; // Revalidar cada hora
+/*export const dynamic = 'force-dynamic';  */
 
+/* export const revalidate = 3600; // Revalidar cada hora
+ */
 export async function generateStaticParams() {
   const products = await getProducts({});
   
@@ -18,37 +20,49 @@ export async function generateStaticParams() {
 interface ProductPageProps {
   params: {
     productId: string;
-  };
+  }
 }
 
 const ProductPage: React.FC<ProductPageProps> = async ({ 
   params 
 }) => {
-  const product = await getProduct(params.productId);
-  const suggestedProducts = await getProducts({ 
-    categoryId: product?.category?.id
-  });
+  try {
+    const product = await getProduct(params.productId);
+    const relatedProducts = await getProducts({ 
+      categoryId: product.category.id 
+    });
 
-  if (!product) {
-    return null;
-  }
-
-  return (
-    <div className="bg-primary-lighter/30">
-      <Container>
-        <div className="px-4 py-10 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-            <Gallery images={product.images} />
-            <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-              <Info data={product} />
+    return (
+      <div className="bg-primary-lighter/30">
+        <Container>
+          <div className="px-4 py-10 sm:px-6 lg:px-8">
+            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+              <Gallery images={product.images} />
+              <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+                <Info data={product} />
+              </div>
+            </div>
+            <hr className="my-10" />
+            <ProductList title="Productos Relacionados" items={relatedProducts} />
+          </div>
+        </Container>
+      </div>
+    );
+  } catch (error) {
+    console.error('Error al cargar el producto:', error);
+    return (
+      <div className="bg-white">
+        <Container>
+          <div className="px-4 py-10 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-gray-900">Error al cargar el producto</h2>
+              <p className="mt-2 text-gray-600">Por favor, intente nuevamente más tarde.</p>
             </div>
           </div>
-          <hr className="my-10" />
-          <ProductList title="Productos Relacionados" items={suggestedProducts} />
-        </div>
-      </Container>
-    </div>  
-  )
-}
+        </Container>
+      </div>
+    );
+  }
+};
 
 export default ProductPage;

@@ -1,4 +1,5 @@
 import { Category } from "@/types";
+import axios from "axios";
 
 const getCategories = async (): Promise<Category[]> => {
   try {
@@ -9,18 +10,24 @@ const getCategories = async (): Promise<Category[]> => {
     }
 
     const URL = `${apiUrl}/categories`;
-    const res = await fetch(URL);
+    console.log("Fetching categories from:", URL);
 
-    if (!res.ok) {
-      throw new Error(`Error al obtener categorías: ${res.status}`);
+    const response = await axios.get(URL);
+    const data = response.data;
+
+    console.log("Categories response:", data);
+
+    // Validar que la respuesta sea un array
+    if (!Array.isArray(data)) {
+      console.error("Datos de categorías inválidos:", data);
+      return [];
     }
 
-    return res.json();
+    return data;
   } catch (error) {
-    console.error("Error al obtener categorías:", error);
+    console.error("Error al obtener las categorías:", error);
     return [];
   }
 };
 
 export default getCategories;
-

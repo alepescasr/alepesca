@@ -1,43 +1,21 @@
+import axios from 'axios';
 import { Category } from "@/types";
 
-const getCategory = async (id: string): Promise<Category | null> => {
+const URL=`${process.env.NEXT_PUBLIC_API_URL}/categories`;
+
+const getCategory = async (id: string): Promise<Category> => {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      console.error("API URL no está definida");
-      return null;
-    }
-
-    const URL = `${apiUrl}/categories/${id}`;
-    console.log('Fetching category from:', URL); // Debug log
-
-    const res = await fetch(URL, {
-      next: { revalidate: 3600 }, // Revalidar cada hora
+    const response = await axios.get(`${URL}/${id}`, {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store' // Deshabilitar caché para desarrollo
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
     });
 
-    if (!res.ok) {
-      console.error(`Error al obtener la categoría: ${res.status}`, await res.text());
-      return null;
-    }
-
-    const data = await res.json();
-    console.log('Category response:', data); // Debug log
-    
-    // Validar que la respuesta tenga la estructura esperada
-    if (!data || !data.id || !data.name) {
-      console.error("Datos de categoría inválidos:", data);
-      return null;
-    }
-
-    return data;
+    return response.data;
   } catch (error) {
-    console.error("Error al obtener la categoría:", error);
-    return null;
+    console.error('Error al obtener la categoría:', error);
+    throw error;
   }
 };
 
