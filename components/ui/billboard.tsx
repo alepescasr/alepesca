@@ -68,7 +68,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
           src="/images/placeholder-billboard.jpg"
           alt="Imagen por defecto"
           fill
-          className="object-cover"
+          className=" lg:object-cover xl:object-cover"
           priority
         />
       </div>
@@ -83,7 +83,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
           src={data.imageUrl || '/images/placeholder-billboard.jpeg'}
           alt={data.label || 'Imagen por defecto'}
           fill
-          className="object-cover"
+          className=" lg:object-cover xl:object-cover"
           priority
         />
       </div>
@@ -104,7 +104,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
                 src={image.url}
                 alt={`${data.label} - Imagen ${index + 1}`}
                 fill
-                className="object-cover"
+                className=" lg:object-cover xl:object-cover"
                 priority={index === 0}
               />
             </div>
