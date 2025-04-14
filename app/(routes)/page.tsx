@@ -41,14 +41,14 @@ const HomePage = async () => {
         
         {/* Productos Destacados */}
         {featuredProducts.length > 0 && (
-          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col rounded-xl gap-y-8 p-4  sm:p-6 lg:p-8  m-8 bg-primary-lighter">
             <ProductList title="Productos Destacados" items={featuredProducts} />
           </div>
         )}
 
         {/* Productos con Ofertas */}
         {offerProducts.length > 0 && (
-          <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col rounded-xl gap-y-8 p-4  sm:p-6 lg:p-8  m-8 bg-primary-lighter">
             <ProductList title="Ofertas Especiales" items={offerProducts} />
           </div>
         )}
