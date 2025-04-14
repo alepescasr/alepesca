@@ -1,9 +1,9 @@
 // Comentar todo el contenido original para mantenerlo como referencia
 import CategoryCards from "@/components/category-cards";
-import Billboard from "@/components/ui/billboard";
+import Hero from "@/components/ui/hero";
 import ProductList from "@/components/product-list";
 import Container from "@/components/ui/container";
-import getBillboard from "@/actions/get-billboard"; 
+import getBanners from "@/actions/get-banners";
 import getProducts from "@/actions/get-products";
 import InstagramFeed from "@/components/instagram-feed";
 import BrandSlider from "@/components/brand-slider";
@@ -11,18 +11,8 @@ import BrandSlider from "@/components/brand-slider";
 /* export const revalidate = 0; */
 
 const HomePage = async () => {
-  // Comentar la obtención de datos original
-  let billboard = await getBillboard("1");
-  if (!billboard) {
-    billboard = {
-      id: "1",
-      label: "Default Billboard",
-      imageUrl: "/prueba.jpg",
-    };
-  } 
-  
-  // Obtener productos destacados y con ofertas
-  const [featuredProducts, offerProducts] = await Promise.all([
+  const [banners, featuredProducts, offerProducts] = await Promise.all([
+    getBanners(),
     getProducts({ isFeatured: true }),
     getProducts({ hasOffer: true })
   ]);
@@ -30,7 +20,7 @@ const HomePage = async () => {
   return (
     <Container>
       <div className="space-y-10 pb-10">
-        <Billboard data={billboard} />
+        <Hero data={banners} />
         <div className="flex flex-col mt-auto mb-3 px-4 sm:px-6 lg:px-8">
           <BrandSlider/>
         </div>
@@ -41,14 +31,14 @@ const HomePage = async () => {
         
         {/* Productos Destacados */}
         {featuredProducts.length > 0 && (
-          <div className="flex flex-col rounded-xl gap-y-8 p-4  sm:p-6 lg:p-8  m-8 bg-primary-lighter">
+          <div className="flex flex-col rounded-xl gap-y-8 p-4 sm:p-6 lg:p-8 m-8 bg-primary-lighter">
             <ProductList title="Productos Destacados" items={featuredProducts} />
           </div>
         )}
 
         {/* Productos con Ofertas */}
         {offerProducts.length > 0 && (
-          <div className="flex flex-col rounded-xl gap-y-8 p-4  sm:p-6 lg:p-8  m-8 bg-primary-lighter">
+          <div className="flex flex-col rounded-xl gap-y-8 p-4 sm:p-6 lg:p-8 m-8 bg-primary-lighter">
             <ProductList title="Ofertas Especiales" items={offerProducts} />
           </div>
         )}
