@@ -43,7 +43,7 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="🔍 Buscar productos..."
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
         />
       </div>
     </div>

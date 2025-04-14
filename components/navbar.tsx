@@ -12,7 +12,7 @@ const Navbar = async () => {
   const categories = await getCategories();
 
   return ( 
-    <div className="border-b bg-primary">
+    <div className="bg-primary">
       <Container>
         <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center text-white">
           <div className="flex items-center lg:hidden">
