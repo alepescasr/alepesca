@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
-import useEmblaCarousel from 'embla-carousel-react';
+import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@/components/ui/button";
 
@@ -102,19 +102,19 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
 
   // Renderizar carrusel para múltiples imágenes
   return (
-    <div className="relative w-full h-[400px] overflow-hidden">
+    <div className="relative w-full h-[250px] md:h-[400px] lg:h-[400px] xl:h-[400px] overflow-hidden">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {data.map((banner) => (
             <div
               key={banner.id}
-              className="flex-[0_0_100%] min-w-0 relative h-[400px]"
+              className="flex-[0_0_100%] min-w-0 relative h-[250px] md:h-[400px] lg:h-[400px] xl:h-[400px]"
             >
               <Image
                 src={banner.imageUrl}
                 alt={banner.title}
                 fill
-                className=" md:object-cover lg:object-cover xl:object-cover"
+                className="md:object-cover lg:object-cover xl:object-cover"
                 priority={banner.order === 1}
               />
             </div>
@@ -123,7 +123,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
       </div>
       {canScrollPrev && (
         <Button
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-primary-lighter/80 text-primary hover:bg-white"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-primary-lighter/80 text-primary hover:bg-white hidden sm:flex"
           onClick={scrollPrev}
         >
           <ChevronLeft className="h-4 w-6 stroke-[3] text-primary" />
@@ -131,7 +131,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
       )}
       {canScrollNext && (
         <Button
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-primary-lighter/80 text-primary hover:bg-white"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-primary-lighter/80 text-primary hover:bg-white hidden sm:flex"
           onClick={scrollNext}
         >
           <ChevronRight className="h-4 w-6 stroke-[3] text-primary" />
