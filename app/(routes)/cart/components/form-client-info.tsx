@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -27,6 +27,7 @@ interface FormClientInfoProps {
 }
 
 const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
+  const [hasAutofilledOnce, setHasAutofilledOnce] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,51 +42,109 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
     mode: "onChange",
   });
 
+  // Mejorada: Función para verificar y aplicar valores autocompletados
+  const checkAndApplyAutofill = () => {
+    const inputs = document.querySelectorAll("input");
+    let wasAnyFieldAutofilled = false;
+
+    inputs.forEach((input) => {
+      // Verificar múltiples indicadores de autocompletado:
+      // 1. Estilo especial de webkit
+      // 2. El input tiene valor pero el form no lo refleja
+      // 3. El input tiene la clase de animación de autocompletado
+      const hasWebkitShadow = window
+        .getComputedStyle(input)
+        .webkitBoxShadow.includes("inset 0 0 0 1000px");
+      const hasValueNotInForm =
+        input.value && !form.getValues()[input.name as keyof FormValues];
+      const hasAutofillAnimation =
+        input.matches(":-webkit-autofill") ||
+        input.classList.contains("autofill");
+
+      const isAutofilled =
+        hasWebkitShadow || hasValueNotInForm || hasAutofillAnimation;
+
+      if (isAutofilled && input.name && input.value) {
+        wasAnyFieldAutofilled = true;
+        // Actualizar el valor en el formulario
+        form.setValue(input.name as keyof FormValues, input.value, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+      }
+    });
+
+    // Si algún campo fue autocompletado, validar todo el formulario
+    if (wasAnyFieldAutofilled) {
+      setHasAutofilledOnce(true);
+      setTimeout(() => {
+        form.trigger(); // Validar todo el formulario
+        validateAndNotify(); // Notificar si el formulario es válido
+      }, 100);
+    }
+  };
+
+  // Función para validar y notificar
+  const validateAndNotify = () => {
+    const formValues = form.getValues();
+    const formErrors = form.formState.errors;
+    const hasErrors = Object.keys(formErrors).length > 0;
+
+    if (!hasErrors && Object.values(formValues).every((value) => value)) {
+      onFormDataChange(formValues);
+    }
+  };
+
   // Detectar autocompletado y actualizar el formulario
   useEffect(() => {
-    const detectAutofill = () => {
-      const inputs = document.querySelectorAll("input");
-      inputs.forEach((input) => {
-        // -webkit-autofill es la clase que los navegadores añaden a campos autocompletados
-        const isAutofilled =
-          getComputedStyle(input).webkitBoxShadow.includes(
-            "inset 0 0 0 1000px"
-          ) ||
-          (input.value && !form.getValues()[input.name as keyof FormValues]);
-
-        if (isAutofilled && input.name) {
-          // Actualizar el valor en el formulario si ha sido autocompletado
-          form.setValue(input.name as keyof FormValues, input.value, {
-            shouldValidate: true,
-            shouldDirty: true,
-            shouldTouch: true,
-          });
-        }
-      });
-    };
-
     // Detectar en eventos comunes después de que el navegador autocompleta
-    window.addEventListener("change", detectAutofill);
-    window.addEventListener("input", detectAutofill);
-    window.addEventListener("blur", detectAutofill);
+    window.addEventListener("input", checkAndApplyAutofill);
+    window.addEventListener("change", checkAndApplyAutofill);
+    window.addEventListener("blur", checkAndApplyAutofill);
+    window.addEventListener("focus", checkAndApplyAutofill);
+    window.addEventListener("animationstart", checkAndApplyAutofill);
+    document.addEventListener("click", checkAndApplyAutofill);
 
-    // Intentar detectar autofill después de que la página se carga completamente
-    setTimeout(detectAutofill, 500);
-    setTimeout(detectAutofill, 1000);
+    // Verificar periódicamente para detectar autocompletado
+    const intervals = [
+      setTimeout(checkAndApplyAutofill, 100),
+      setTimeout(checkAndApplyAutofill, 500),
+      setTimeout(checkAndApplyAutofill, 1000),
+      setTimeout(checkAndApplyAutofill, 1500),
+      setTimeout(checkAndApplyAutofill, 2000),
+    ];
 
+    // Verificar en cada interacción con el DOM por un tiempo corto
+    const domObserver = new MutationObserver(checkAndApplyAutofill);
+    domObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["value", "class"],
+    });
+
+    // Limpiar todos los listeners
     return () => {
-      window.removeEventListener("change", detectAutofill);
-      window.removeEventListener("input", detectAutofill);
-      window.removeEventListener("blur", detectAutofill);
+      window.removeEventListener("input", checkAndApplyAutofill);
+      window.removeEventListener("change", checkAndApplyAutofill);
+      window.removeEventListener("blur", checkAndApplyAutofill);
+      window.removeEventListener("focus", checkAndApplyAutofill);
+      window.removeEventListener("animationstart", checkAndApplyAutofill);
+      document.removeEventListener("click", checkAndApplyAutofill);
+      intervals.forEach(clearTimeout);
+      domObserver.disconnect();
     };
   }, [form]);
 
   // Observar cambios en el formulario
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription = form.watch((value) => {
       const isValid =
         form.formState.isValid &&
-        Object.keys(form.formState.touchedFields).length > 0;
+        (Object.keys(form.formState.touchedFields).length > 0 ||
+          hasAutofilledOnce);
+
       if (isValid) {
         onFormDataChange(value as FormValues);
       } else {
@@ -94,46 +153,56 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [form, onFormDataChange]);
+  }, [form, onFormDataChange, hasAutofilledOnce]);
 
-  // Validar el formulario cuando se carga
-  React.useEffect(() => {
-    form.trigger();
+  // Estilo CSS para detectar autocompletado en navegadores
+  const autofillDetectionStyle = `
+    @keyframes onAutoFillStart { from {} to {} }
+    @keyframes onAutoFillCancel { from {} to {} }
+    input:-webkit-autofill {
+      animation-name: onAutoFillStart;
+      transition: background-color 50000s ease-in-out 0s;
+    }
+    input:not(:-webkit-autofill) {
+      animation-name: onAutoFillCancel;
+    }
+  `;
 
-    // Verificar si hay valores autocompletados al inicio
-    setTimeout(() => {
-      const formValues = form.getValues();
-      const hasValues = Object.values(formValues).some(
-        (value) => value && typeof value === "string" && value.length > 0
-      );
-
-      if (hasValues) {
-        // Si hay valores, volver a validar todo el formulario
-        form.trigger();
+  // Añadir manejadores de eventos a los inputs comunes
+  const addInputHandlers = (fieldName: keyof FormValues) => ({
+    ...form.register(fieldName),
+    onAnimationStart: (e: React.AnimationEvent) => {
+      if (e.animationName === "onAutoFillStart") {
+        setHasAutofilledOnce(true);
+        checkAndApplyAutofill();
       }
-    }, 1000);
-  }, [form]);
+    },
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      checkAndApplyAutofill();
+    },
+    onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
+      if (e.target.value) {
+        form.setValue(fieldName, e.target.value, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+        checkAndApplyAutofill();
+      }
+    },
+  });
 
   return (
     <div className="space-y-6">
+      <style>{autofillDetectionStyle}</style>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <label className="text-sm font-medium">Nombre</label>
           <Input
-            {...form.register("nombre")}
+            {...addInputHandlers("nombre")}
             placeholder="Tu nombre"
             className="w-full"
             autoComplete="given-name"
-            onBlur={(e) => {
-              // Asegurarnos que el valor se registre en el blur
-              if (e.target.value) {
-                form.setValue("nombre", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.nombre && (
             <p className="text-sm text-red-500">
@@ -145,19 +214,10 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Apellido</label>
           <Input
-            {...form.register("apellido")}
+            {...addInputHandlers("apellido")}
             placeholder="Tu apellido"
             className="w-full"
             autoComplete="family-name"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("apellido", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.apellido && (
             <p className="text-sm text-red-500">
@@ -169,20 +229,11 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Email</label>
           <Input
-            {...form.register("email")}
+            {...addInputHandlers("email")}
             type="email"
             placeholder="tu@email.com"
             className="w-full"
             autoComplete="email"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("email", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.email && (
             <p className="text-sm text-red-500">
@@ -194,19 +245,10 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Teléfono</label>
           <Input
-            {...form.register("telefono")}
+            {...addInputHandlers("telefono")}
             placeholder="Tu teléfono"
             className="w-full"
             autoComplete="tel"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("telefono", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.telefono && (
             <p className="text-sm text-red-500">
@@ -218,19 +260,10 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="md:col-span-2 space-y-2">
           <label className="text-sm font-medium">Dirección</label>
           <Input
-            {...form.register("direccion")}
+            {...addInputHandlers("direccion")}
             placeholder="Tu dirección completa"
             className="w-full"
             autoComplete="street-address"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("direccion", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.direccion && (
             <p className="text-sm text-red-500">
@@ -242,19 +275,10 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Ciudad</label>
           <Input
-            {...form.register("ciudad")}
+            {...addInputHandlers("ciudad")}
             placeholder="Tu ciudad"
             className="w-full"
             autoComplete="address-level2"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("ciudad", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.ciudad && (
             <p className="text-sm text-red-500">
@@ -266,20 +290,11 @@ const FormClientInfo = ({ onFormDataChange }: FormClientInfoProps) => {
         <div className="space-y-2">
           <label className="text-sm font-medium">Código Postal</label>
           <Input
-            {...form.register("codigoPostal")}
+            {...addInputHandlers("codigoPostal")}
             placeholder="Tu código postal"
             className="w-full"
             autoComplete="postal-code"
             defaultValue="5600"
-            onBlur={(e) => {
-              if (e.target.value) {
-                form.setValue("codigoPostal", e.target.value, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }
-            }}
           />
           {form.formState.errors.codigoPostal && (
             <p className="text-sm text-red-500">
