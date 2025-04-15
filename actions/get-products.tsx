@@ -14,6 +14,9 @@ interface Query {
 
 const getProducts = async (query: Query): Promise<Product[]> => {
   try {
+    // Añadir timestamp para evitar caché
+    const timestamp = new Date().getTime();
+
     const url = qs.stringifyUrl({
       url: URL,
       query: {
@@ -21,15 +24,18 @@ const getProducts = async (query: Query): Promise<Product[]> => {
         categoryId: query.categoryId,
         isFeatured: query.isFeatured,
         hasOffer: query.hasOffer,
+        t: timestamp, // Parámetro de timestamp para forzar nueva solicitud
       },
     });
 
-    
-
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
     const data = response.data;
-
-   
 
     // Si la respuesta es un array, lo filtramos según los criterios
     if (Array.isArray(data)) {
@@ -49,7 +55,6 @@ const getProducts = async (query: Query): Promise<Product[]> => {
         );
       }
 
-      
       return filteredProducts;
     }
 
@@ -75,7 +80,6 @@ const getProducts = async (query: Query): Promise<Product[]> => {
           );
         }
 
-       
         return filteredProducts;
       }
     }
