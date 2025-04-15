@@ -28,6 +28,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
 
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -41,6 +42,7 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
     if (!emblaApi) return;
     setCanScrollPrev(emblaApi.canScrollPrev());
     setCanScrollNext(emblaApi.canScrollNext());
+    setSelectedIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
   useEffect(() => {
@@ -137,6 +139,22 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
           <ChevronRight className="h-4 w-6 stroke-[3] text-primary" />
         </Button>
       )}
+      {/* Indicadores de posición */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {data.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => emblaApi?.scrollTo(index)}
+            className={`w-3 h-3 rounded-full border-2 transition-colors duration-300 ${
+              selectedIndex === index
+                ? 'bg-primary-lighter/80 border-white'
+                : 'bg-white border-primary-lighter/80'
+            }`}
+            aria-label={`Ir a slide ${index + 1}`}
+          />
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-primary-lighter/90"></div>
     </div>
   );
 };
