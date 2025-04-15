@@ -135,8 +135,12 @@ const useCartStore = create(
 );
 
 // Hook personalizado para manejar la hidratación
-// Soporta uso con y sin selector para mantener compatibilidad
-const useCart = <T,>(selector?: (state: CartStore) => T) => {
+// Variante sin selector: devuelve el store completo
+function useCart(): CartStore;
+// Variante con selector: devuelve el resultado del selector
+function useCart<T>(selector: (state: CartStore) => T): T;
+// Implementación
+function useCart<T>(selector?: (state: CartStore) => T) {
   const store = useCartStore();
 
   useEffect(() => {
@@ -149,6 +153,6 @@ const useCart = <T,>(selector?: (state: CartStore) => T) => {
   // Si hay un selector, devuelve el resultado de aplicarlo al store
   // Si no hay selector, devuelve el store completo
   return selector ? selector(store) : store;
-};
+}
 
 export default useCart;

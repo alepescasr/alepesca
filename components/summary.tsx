@@ -7,9 +7,20 @@ import Button from "@/components/ui/button";
 import useCart, { CartStore } from "@/hooks/use-cart";
 import ShippingPayment from "@/components/shipping-payment";
 
+interface CartItem {
+  product: {
+    id: string;
+    name: string;
+    price: string;
+    offerPrice?: string;
+    hasOffer?: boolean;
+  };
+  quantity: number;
+}
+
 const Summary = () => {
   const searchParams = useSearchParams();
-  const cart = useCart() as CartStore;
+  const cart = useCart();
   const [shippingCost, setShippingCost] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isMounted, setIsMounted] = useState(false);
@@ -24,7 +35,7 @@ const Summary = () => {
     }
   }, [searchParams, cart]);
 
-  const totalPrice = cart.items.reduce((total: number, item) => {
+  const totalPrice = cart.items.reduce((total, item) => {
     const itemPrice =
       item.product.hasOffer && item.product.offerPrice
         ? Number(item.product.offerPrice)
