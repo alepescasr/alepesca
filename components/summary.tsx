@@ -4,13 +4,23 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Currency from "@/components/ui/currency";
 import Button from "@/components/ui/button";
-import useCart from "@/hooks/use-cart";
+import useCart, { CartStore } from "@/hooks/use-cart";
 import ShippingPayment from "@/components/shipping-payment";
+
+interface CartItem {
+  product: {
+    id: string;
+    name: string;
+    price: string;
+    offerPrice?: string;
+    hasOffer?: boolean;
+  };
+  quantity: number;
+}
 
 const Summary = () => {
   const searchParams = useSearchParams();
-  const items = useCart((state) => state.items);
-  const removeAll = useCart((state) => state.removeAll);
+  const cart = useCart();
   const [shippingCost, setShippingCost] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isMounted, setIsMounted] = useState(false);
@@ -21,11 +31,11 @@ const Summary = () => {
 
   useEffect(() => {
     if (searchParams.get("success")) {
-      removeAll();
+      cart.removeAll();
     }
-  }, [searchParams, removeAll]);
+  }, [searchParams, cart]);
 
-  const totalPrice = items.reduce((total, item) => {
+  const totalPrice = cart.items.reduce((total, item) => {
     const itemPrice =
       item.product.hasOffer && item.product.offerPrice
         ? Number(item.product.offerPrice)
@@ -75,7 +85,7 @@ const Summary = () => {
       </div>
       <Button
         onClick={onCheckout}
-        disabled={items.length === 0}
+        disabled={cart.items.length === 0}
         className="w-full mt-6"
       >
         Finalizar compra
