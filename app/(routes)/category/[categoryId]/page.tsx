@@ -4,6 +4,7 @@ import CategoryContent from './components/category-content';
 import getProducts from "@/actions/get-products";
 import getColors from '@/actions/get-colors';
 import getCategories from '@/actions/get-categories';
+import axios from 'axios';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,8 +18,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
   params 
 }) => {
   try {
-    
-    
     const categories = await getCategories();
     // Convertimos el slug de la URL a un formato comparable con el nombre
     const categoryName = params.categoryId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -42,12 +41,25 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
       );
     }
 
-   
+    // Obtener subcategorías de la categoría actual
+    const subcategoriesResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/subcategories`);
+    const allSubcategories = subcategoriesResponse.data;
     
+    // Filtrar subcategorías que pertenecen a la categoría actual
+    const categorySubcategories = allSubcategories.filter(
+      (subcategory: any) => subcategory.categoryId === category.id
+    );
+
+    // Obtener productos y colores
     const [products, colors] = await Promise.all([
       getProducts({ categoryId: category.id }),
       getColors()
     ]);
+
+    // Filtrar subcategorías que tienen productos
+    const subcategoriesWithProducts = categorySubcategories.filter((subcategory: any) => 
+      products.some(product => product.subcategoryId === subcategory.id)
+    );
 
     const billboardData = {
       id: category.id,
@@ -62,6 +74,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             products={products}
             colors={colors}
             billboardData={billboardData}
+            subcategories={subcategoriesWithProducts}
           />
         </Container>
       </div>

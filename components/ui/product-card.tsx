@@ -30,16 +30,14 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
 
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
-
     previewModal.onOpen(data);
   };
 
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
-
     cart.addItem(data, 1);
   };
-
+  
   return (
     <div
       onClick={handleClick}
@@ -76,7 +74,11 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         <p className="font-semibold text-lg overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal">
           {data.name}
         </p>
-        <p className="text-sm text-primary-light">{data.category?.name}</p>
+        <div className="flex flex-row justify-end items-center">
+        <p className="text-xs text-gray-500">{data.subcategory?.name}</p>
+        </div>
+        
+        
 
         {/* Stock info */}
         {stockAvailable > 0 && (
