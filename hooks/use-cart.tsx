@@ -11,7 +11,7 @@ interface CartItem {
   quantity: number;
 }
 
-interface CartStore {
+export interface CartStore {
   items: CartItem[];
   addItem: (data: Product, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
@@ -135,7 +135,8 @@ const useCartStore = create(
 );
 
 // Hook personalizado para manejar la hidratación
-const useCart = () => {
+// Soporta uso con y sin selector para mantener compatibilidad
+const useCart = <T,>(selector?: (state: CartStore) => T) => {
   const store = useCartStore();
 
   useEffect(() => {
@@ -145,7 +146,9 @@ const useCart = () => {
     }
   }, [store]);
 
-  return store;
+  // Si hay un selector, devuelve el resultado de aplicarlo al store
+  // Si no hay selector, devuelve el store completo
+  return selector ? selector(store) : store;
 };
 
 export default useCart;
