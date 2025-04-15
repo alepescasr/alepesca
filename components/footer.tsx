@@ -74,19 +74,19 @@ const Footer = async () => {
             className="w-full md:w-1/4 mb-6 md:mb-0"
           >
             <div className="flex flex-col space-y-2 items-center md:items-start">
-              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="/about" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Sobre Nosotros
               </Link>
-              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="/terms" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Términos y Condiciones
               </Link>
-              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="/privacy" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Política de Privacidad
               </Link>
-              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="/shipping" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Envíos y Devoluciones
               </Link>
-              <Link href="#" className="text-primary-lighter hover:text-accent transition-colors duration-300">
+              <Link href="/faq" className="text-primary-lighter hover:text-accent transition-colors duration-300">
                 Preguntas Frecuentes
               </Link>
             </div>
