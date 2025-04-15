@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { toast } from "react-hot-toast";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { useEffect } from "react";
 
 import { Product } from "@/types";
 import { AlertTriangle } from "lucide-react";
@@ -16,12 +17,16 @@ interface CartStore {
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   removeAll: () => void;
+  hydrated: boolean;
+  setHydrated: (state: boolean) => void;
 }
 
-const useCart = create(
+const useCartStore = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
+      hydrated: false,
+      setHydrated: (state) => set({ hydrated: state }),
       addItem: (data: Product, quantity = 1) => {
         const currentItems = get().items;
         const existingItem = currentItems.find(
@@ -115,10 +120,9 @@ const useCart = create(
     }),
     {
       name: "cart-storage",
-      skipHydration: true,
       storage: createJSONStorage(() => {
         if (typeof window !== "undefined") {
-          return window.localStorage;
+          return localStorage;
         }
         return {
           getItem: () => JSON.stringify({ state: { items: [] }, version: 0 }),
@@ -129,5 +133,19 @@ const useCart = create(
     }
   )
 );
+
+// Hook personalizado para manejar la hidratación
+const useCart = () => {
+  const store = useCartStore();
+
+  useEffect(() => {
+    // Marcar como hidratado después de la primera renderización en el cliente
+    if (!store.hydrated) {
+      store.setHydrated(true);
+    }
+  }, [store]);
+
+  return store;
+};
 
 export default useCart;

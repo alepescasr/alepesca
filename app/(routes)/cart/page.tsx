@@ -10,12 +10,14 @@ import Summary from "./components/summary";
 import CartItem from "./components/cart-item";
 import ShippingPayment from "@/components/shipping-payment";
 
-/* export const revalidate = 0; */
+// Forzar comportamiento dinámico para siempre obtener la última versión
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [shippingCost, setShippingCost] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const [totalAmount, setTotalAmount] = useState(0);
   const [clientInfo, setClientInfo] = useState<FormValues | null>(null);
   const cart = useCart();
@@ -47,11 +49,24 @@ const CartPage = () => {
     }
   }, [cart, isMounted]);
 
-  if (!isMounted) {
-    return null;
+  if (!isMounted || !cart.hydrated) {
+    return (
+      <div className="bg-primary-lighter/30">
+        <Container>
+          <div className="px-4 py-16 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold text-black">
+              Carrito de Compras
+            </h1>
+            <div className="mt-12 flex items-center justify-center">
+              <p className="text-neutral-500">Cargando carrito...</p>
+            </div>
+          </div>
+        </Container>
+      </div>
+    );
   }
 
-  return (  
+  return (
     <div className="bg-primary-lighter/30">
       <Container>
         <div className="px-4 py-16 sm:px-6 lg:px-8">
@@ -71,7 +86,7 @@ const CartPage = () => {
                       ) : null
                     )}
                   </ul>
-                  
+
                   <div className="mt-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">
                       Información de envío
@@ -83,7 +98,7 @@ const CartPage = () => {
                     <h2 className="text-lg font-semibold text-gray-900 mb-4">
                       Opciones de envío y pago
                     </h2>
-                    <ShippingPayment 
+                    <ShippingPayment
                       onShippingChange={setShippingCost}
                       onPaymentMethodChange={setPaymentMethod}
                       totalAmount={totalAmount}
@@ -93,7 +108,7 @@ const CartPage = () => {
                 </>
               )}
             </div>
-            <Summary 
+            <Summary
               shippingCost={shippingCost}
               paymentMethod={paymentMethod}
               onTotalChange={setTotalAmount}
