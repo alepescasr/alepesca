@@ -7,7 +7,7 @@ import getProducts from "@/actions/get-products";
 import InstagramFeed from "@/components/instagram-feed";
 import BrandSlider from "@/components/brand-slider";
 
-// Remove revalidate comment to ensure we get fresh data on each page load
+// Asegurar que la página siempre obtenga datos frescos del servidor
 export const revalidate = 0;
 
 const HomePage = async () => {
@@ -35,7 +35,6 @@ const HomePage = async () => {
             <ProductList 
               title="Productos Destacados" 
               items={featuredProducts} 
-              queryParams={{ isFeatured: true }}
             />
           </div>
         )}
@@ -46,7 +45,6 @@ const HomePage = async () => {
             <ProductList 
               title="Ofertas Especiales" 
               items={offerProducts} 
-              queryParams={{ hasOffer: true }}
             />
           </div>
         )}
