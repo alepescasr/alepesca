@@ -5,9 +5,9 @@ import Info from "@/components/info";
 import getProduct from "@/actions/get-product";
 import getProducts from "@/actions/get-products";
 
-// Forzar comportamiento dinámico, sin caché
-export const dynamic = "force-dynamic";
-export const revalidate = 0; // No utilizar caché
+// En lugar de force-dynamic, usa una opción menos restrictiva
+export const dynamic = "auto"; // o simplemente elimina esta línea
+export const revalidate =240; // Revalidar cada 60 segundos, en lugar de cada solicitud// 
 
 export async function generateStaticParams() {
   const products = await getProducts({});
