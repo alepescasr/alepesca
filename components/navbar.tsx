@@ -8,6 +8,7 @@ import NavbarActions from "@/components/navbar-actions";
 import getCategories from "@/actions/get-categories";
 import MobileMenu from "@/components/mobile-menu";
 import NavbarSearch from "@/components/navbar-search";
+import MobileSearch from "@/components/mobile-search";
 
 const Navbar = async () => {
   const categories = await getCategories();
@@ -20,7 +21,7 @@ const Navbar = async () => {
             <MobileMenu data={categories} />
           </div>
           <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
-            <div className="relative w-32 h-12">
+            <div className="relative w-12 lg:w-32 xl:w-32 h-12">
               <Image
                 src="/logo-1.png"
                 alt="AlePesca Logo"
@@ -34,7 +35,12 @@ const Navbar = async () => {
             <MainNav data={categories} />
           </div>
           <div className="ml-auto flex items-center gap-x-4">
-            <NavbarSearch />
+            <div className="hidden lg:block">
+              <NavbarSearch />
+            </div>
+            <div className="lg:hidden">
+              <MobileSearch />
+            </div>
             <NavbarActions />
           </div>
         </div>
