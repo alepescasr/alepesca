@@ -40,7 +40,7 @@ const FAQPage = () => {
     },
     {
       question: "¿Cómo puedo contactarlos?",
-      answer: "Puedes contactarnos a través de varios canales: WhatsApp (+54 9 260 4123456), email (info@alepescasr.com), teléfono ((260) 4123456), o visitando nuestra tienda física en San Rafael, Mendoza."
+      answer: "Puedes contactarnos a través de varios canales: WhatsApp (+54 9 260 4203641), email ( alepescasr@gmail.com), o visitando nuestra tienda física en San Rafael, Mendoza."
     }
   ];
 
@@ -69,10 +69,10 @@ const FAQPage = () => {
           </p>
           <div className="space-y-2">
             <p className="text-lg">
-              <span className="font-semibold">WhatsApp:</span> +54 9 260 4123456
+              <span className="font-semibold">WhatsApp:</span> +54 9 2604 203641
             </p>
             <p className="text-lg">
-              <span className="font-semibold">Email:</span> info@alepescasr.com
+              <span className="font-semibold">Email:</span> alepescasr@gmail.com
             </p>
             <p className="text-lg">
               <span className="font-semibold">Horario de atención:</span> Lunes a Viernes de 9:00 a 18:00, Sábados de 9:00 a 13:00
