@@ -98,7 +98,7 @@ const MobileSearch = () => {
                 }}
                 onFocus={() => setShowSuggestions(true)}
                 placeholder="Buscar productos..."
-                className="w-full px-4 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 pr-10 rounded-md border text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:text-primary-lighter focus:font-semibold"
                 autoFocus
               />
               {searchTerm && (
@@ -135,8 +135,8 @@ const MobileSearch = () => {
                         />
                       )}
                       <div>
-                        <span className="font-medium">{product.name}</span>
-                        <div className="text-xs text-gray-500">
+                        <span className="font-medium text-primary-lighter">{product.name}</span>
+                        <div className="text-xs text-primary-lighter/90">
                           {product.category?.name} - {product.subcategory?.name}
                         </div>
                       </div>
