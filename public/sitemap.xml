@@ -3,7 +3,7 @@
   <!-- Página principal -->
   <url>
     <loc>https://alepescasr.com/</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2025-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,19 +11,19 @@
   <!-- Categorías -->
   <url>
     <loc>https://alepescasr.com/category/pesca</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2025-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alepescasr.com/category/indumentaria</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2025-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://alepescasr.com/category/camping</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2025-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,7 +31,7 @@
   <!-- Página de búsqueda -->
   <url>
     <loc>https://alepescasr.com/search</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2025-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
