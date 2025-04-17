@@ -43,7 +43,7 @@ export const metadata = {
     description: "Los mejores productos para pesca deportiva. Envíos a todo el país.",
     images: [
       {
-        url: "/logo-1.png",
+        url: "/og-image.jpeg",
         width: 1200,
         height: 630,
         alt: "AlePesca - Tienda de pesca deportiva",
