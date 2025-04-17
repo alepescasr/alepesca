@@ -161,11 +161,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
             </div>
           )}
 
-          {filteredProducts.length === 0 && <NoResults />}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredProducts.map((item) => (
-              <ProductCard key={item.id} data={item} />
-            ))}
+            {filteredProducts.length === 0 && <NoResults />}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredProducts.map((item) => (
+                <ProductCard key={item.id} data={item} />
+              ))}
           </div>
         </div>
       </div>

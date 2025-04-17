@@ -7,6 +7,7 @@ import Container from "@/components/ui/container";
 import NavbarActions from "@/components/navbar-actions";
 import getCategories from "@/actions/get-categories";
 import MobileMenu from "@/components/mobile-menu";
+import NavbarSearch from "@/components/navbar-search";
 
 const Navbar = async () => {
   const categories = await getCategories();
@@ -32,7 +33,10 @@ const Navbar = async () => {
           <div className="hidden lg:block">
             <MainNav data={categories} />
           </div>
-          <NavbarActions />
+          <div className="ml-auto flex items-center gap-x-4">
+            <NavbarSearch />
+            <NavbarActions />
+          </div>
         </div>
       </Container>
     </div>
