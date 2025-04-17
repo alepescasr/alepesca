@@ -75,7 +75,7 @@ const FAQPage = () => {
               <span className="font-semibold">Email:</span> alepescasr@gmail.com
             </p>
             <p className="text-lg">
-              <span className="font-semibold">Horario de atención:</span> Lunes a Viernes de 9:00 a 18:00, Sábados de 9:00 a 13:00
+              <span className="font-semibold">Horario de atención:</span> Lunes a sabado de 9:00 a 13:00 y de 16:30 a 21:00.
             </p>
           </div>
         </div>
