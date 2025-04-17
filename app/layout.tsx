@@ -37,13 +37,13 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "https://alepesca.com/",
+    url: "https://alepescasr.com/",
     siteName: "AlePesca",
     title: "AlePesca | Tu tienda de pesca deportiva online",
     description: "Los mejores productos para pesca deportiva. Envíos a todo el país.",
     images: [
       {
-        url: "https://alepesca.com/og-image.jpg",
+        url: "https://alepescasr.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "AlePesca - Tienda de pesca deportiva",
@@ -62,9 +62,9 @@ export const metadata = {
   
   // Configuración de idioma
   alternates: {
-    canonical: "https://alepesca.com",
+    canonical: "https://alepescasr.com",
     languages: {
-      'es-ES': "https://alepesca.com",
+      'es-ES': "https://alepescasr.com",
     },
   },
   
