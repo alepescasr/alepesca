@@ -12,24 +12,34 @@ const font = Urbanist({ subsets: ["latin"] });
 
 export const metadata = {
   // Metadatos básicos SEO
-  title: "AlePesca | Tienda especializada en artículos de pesca deportiva",
-  description: "Encuentra los mejores artículos para pesca deportiva en AlePesca. Amplio catálogo de cañas, carretes, señuelos y accesorios de las mejores marcas del mercado.",
-  keywords: "pesca deportiva, cañas de pescar, carretes, señuelos, accesorios de pesca",
-  
+  title: "AlePescaSR | La mejor tienda online de artículos de pesca deportiva",
+  description: "AlePescaSR es tu tienda especializada en pesca deportiva con el mejor catálogo de cañas, carretes, señuelos y accesorios de las mejores marcas. Envíos a todo el país.",
+  keywords: "alepescasr, pesca deportiva, tienda de pesca, cañas de pescar, carretes, señuelos, accesorios de pesca",
+  priority: 1.0,
+  links: [
+    {
+      rel: "Home",
+      href: "https://alepescasr.com",
+    },
+  ],
   // Favicon y otros iconos
   icons: {
     icon: "/favicon.ico",
- /*    apple: "/apple-icon.png",
-    shortcut: "/shortcut-icon.png", */
+    apple: "/favicon.ico",
+    shortcut: "/favicon.ico", 
   },
   
   // Configuración de robots
   robots: {
     index: true,
     follow: true,
+    nocache: true,
     googleBot: {
       index: true,
       follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
     },
   },
   
@@ -43,7 +53,7 @@ export const metadata = {
     description: "Los mejores productos para pesca deportiva. Envíos a todo el país.",
     images: [
       {
-        url: "/og-image.jpeg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "AlePesca - Tienda de pesca deportiva",
