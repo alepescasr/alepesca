@@ -61,8 +61,8 @@ const PrivacyPage = () => {
             Si tiene preguntas sobre nuestra política de privacidad, puede contactarnos en:
           </p>
           <ul className="list-none pl-6 mb-6 text-lg">
-            <li>Email: privacy@AlePesca.com</li>
-            <li>Teléfono: +54 9 260 4123456</li>
+            <li>Email: alepescasr@gmail.com</li>
+            <li>Teléfono: +54 9 260 4203641</li>
             <li>Dirección: San Rafael, Mendoza, Argentina</li>
           </ul>
         </div>

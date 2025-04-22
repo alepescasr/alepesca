@@ -1,4 +1,3 @@
-// Comentar todo el contenido original para mantenerlo como referencia
 import CategoryCards from "@/components/category-cards";
 import Hero from "@/components/ui/hero";
 import ProductList from "@/components/product-list";
@@ -8,7 +7,8 @@ import getProducts from "@/actions/get-products";
 import InstagramFeed from "@/components/instagram-feed";
 import BrandSlider from "@/components/brand-slider";
 
-/* export const revalidate = 0; */
+// Asegurar que la página siempre obtenga datos frescos del servidor
+export const revalidate = 0;
 
 const HomePage = async () => {
   const [banners, featuredProducts, offerProducts] = await Promise.all([
@@ -32,14 +32,20 @@ const HomePage = async () => {
         {/* Productos Destacados */}
         {featuredProducts.length > 0 && (
           <div className="flex flex-col rounded-xl gap-y-8 p-4 sm:p-6 lg:p-8 m-8 bg-primary-lighter">
-            <ProductList title="Productos Destacados" items={featuredProducts} />
+            <ProductList 
+              title="Productos Destacados" 
+              items={featuredProducts} 
+            />
           </div>
         )}
 
         {/* Productos con Ofertas */}
         {offerProducts.length > 0 && (
           <div className="flex flex-col rounded-xl gap-y-8 p-4 sm:p-6 lg:p-8 m-8 bg-primary-lighter">
-            <ProductList title="Ofertas Especiales" items={offerProducts} />
+            <ProductList 
+              title="Ofertas Especiales" 
+              items={offerProducts} 
+            />
           </div>
         )}
 

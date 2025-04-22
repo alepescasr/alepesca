@@ -4,28 +4,37 @@ import { useState, useEffect, useCallback } from 'react';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { Product } from '@/types';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
-interface SearchProps {
-  products: Product[];
-  onSearch: (results: Product[]) => void;
-}
-
-const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
+const NavbarSearch = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  // Cargar todos los productos al montar el componente
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+        setAllProducts(response.data);
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   // Función para filtrar productos
   const filterProducts = useCallback((term: string) => {
     if (!term.trim()) {
       setSuggestions([]);
-      onSearch([]);
       return;
     }
 
     const termLower = term.toLowerCase();
-    const filtered = products.filter((product) => {
+    const filtered = allProducts.filter((product) => {
       const matchesName = product.name.toLowerCase().includes(termLower);
       const matchesDescription = product.description?.toLowerCase().includes(termLower) || false;
       const matchesColor = product.color?.name.toLowerCase().includes(termLower) || false;
@@ -35,11 +44,8 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
       return matchesName || matchesDescription || matchesColor || matchesPrice || matchesOfferPrice;
     });
 
-    // Actualizar sugerencias (máximo 5)
     setSuggestions(filtered.slice(0, 5));
-    // Actualizar resultados de búsqueda
-    onSearch(filtered);
-  }, [products, onSearch]);
+  }, [allProducts]);
 
   // Efecto para filtrar cuando cambia el término de búsqueda
   useEffect(() => {
@@ -54,20 +60,33 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
     setSearchTerm(product.name);
     filterProducts(product.name);
     setShowSuggestions(false);
-    // Usar window.location en lugar de router.push
     router.push(`/product/${product.id}`);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      setShowSuggestions(false);
+      router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
+  const handleViewAllResults = () => {
+    if (searchTerm.trim()) {
+      setShowSuggestions(false);
+      router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   const clearSearch = () => {
     setSearchTerm('');
     setSuggestions([]);
-    onSearch([]);
     setShowSuggestions(false);
   };
 
   return (
-    <div className="relative">
-      <div className="relative">
+    <div className="relative hidden lg:block w-[300px]">
+      <form onSubmit={handleSearchSubmit} className="relative">
         <input
           type="text"
           value={searchTerm}
@@ -77,7 +96,7 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
           }}
           onFocus={() => setShowSuggestions(true)}
           placeholder="Buscar productos..."
-          className="w-full px-4 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-full px-4 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:text-primary-lighter"
         />
         {searchTerm && (
           <button
@@ -89,28 +108,48 @@ const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
           </button>
         )}
         <button
-          type="button"
+          type="submit"
           className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
         >
           <SearchIcon className="h-4 w-4" />
         </button>
-      </div>
+      </form>
 
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
           {suggestions.map((product) => (
             <button
               key={product.id}
               onClick={() => handleSuggestionClick(product)}
               className="w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
             >
-              <span className="font-medium">{product.name}</span>
+              <div className="flex items-center gap-2">
+                {product.images?.[0]?.url && (
+                  <img
+                    src={product.images[0].url}
+                    alt={product.name}
+                    className="w-8 h-8 object-cover rounded"
+                  />
+                )}
+                <div>
+                  <span className="font-medium text-primary-lighter/90">{product.name}</span>
+                  <div className="text-xs text-primary-lighter/90">
+                    {product.category?.name} - {product.subcategory?.name}
+                  </div>
+                </div>
+              </div>
             </button>
           ))}
+          <button
+            onClick={handleViewAllResults}
+            className="block w-full px-4 py-2 text-center text-primary hover:bg-gray-100 font-medium"
+          >
+            Ver todos los productos
+          </button>
         </div>
       )}
     </div>
   );
 };
 
-export default Search; 
+export default NavbarSearch;

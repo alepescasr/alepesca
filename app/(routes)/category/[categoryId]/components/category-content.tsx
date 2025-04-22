@@ -88,11 +88,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
       <Billboard data={billboardData} />
       <div className="px-4 sm:px-6 lg:px-8 pb-24">
         <div className="mt-6">
-          <div className="mb-6 flex flex-row gap-4 items-center">
-            <div className="w-[75%] flex items-center">
+          <div className="mb-2 flex justify-center gap-6">
+            <div className="w-[60%] max-w-[600px]">
               <Search products={products} onSearch={handleSearch} />
             </div>
-            <div className="w-[20%] flex items-center">
+            <div className="w-auto">
               <Select
                 onValueChange={(value) => {
                   const [type, order] = value.split('-');
@@ -103,9 +103,10 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
                   }
                 }}
               >
-                <SelectTrigger className="w-full h-10">
-                  <div className="flex items-center justify-center w-full">
+                <SelectTrigger className="h-10 px-4 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                  <div className="flex items-center gap-2">
                     <Filter className="h-4 w-4" />
+                    <span>Filtro</span>
                   </div>
                 </SelectTrigger>
                 <SelectContent>
@@ -129,7 +130,7 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
           
           {/* Barra de filtros activos */}
           {(selectedSubcategories.length > 0 || sortOrder !== 'default') && (
-            <div className="mb-4 flex flex-wrap gap-2">
+            <div className=" mr-2 mb-4 flex flex-wrap gap-2">
               {selectedSubcategories.map((subcategory) => (
                 <div
                   key={subcategory}
@@ -160,11 +161,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
             </div>
           )}
 
-          {filteredProducts.length === 0 && <NoResults />}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredProducts.map((item) => (
-              <ProductCard key={item.id} data={item} />
-            ))}
+            {filteredProducts.length === 0 && <NoResults />}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredProducts.map((item) => (
+                <ProductCard key={item.id} data={item} />
+              ))}
           </div>
         </div>
       </div>

@@ -303,9 +303,12 @@ const Summary: React.FC<SummaryProps> = ({
 
               <div>
                 <p className="text-sm text-gray-600">Titular:</p>
+
                 <p className="text-lg font-semibold text-gray-900">
                   Alejandro Pescar
                 </p>
+                <p className="text-lg font-semibold text-gray-900">Luengo Lagos Óscar Alejandro</p>
+
               </div>
               <div className="relative w-full h-48">
                 <Image

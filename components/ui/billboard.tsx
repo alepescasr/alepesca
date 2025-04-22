@@ -3,7 +3,7 @@
 import Image from "next/image";
 import type { Billboard as BillboardType } from "@/types";
 import { useState, useEffect, useCallback } from "react";
-import useEmblaCarousel from 'embla-carousel-react';
+import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@/components/ui/button";
 
@@ -68,7 +68,7 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
           src="/images/placeholder-billboard.jpg"
           alt="Imagen por defecto"
           fill
-          className=" lg:object-cover xl:object-cover"
+          className="object-scale-down"
           priority
         />
       </div>
@@ -78,16 +78,15 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
   // Si no hay imágenes múltiples, usa la imageUrl tradicional
   if (!data.images || data.images.length === 0) {
     return (
-      <div className="relative w-full h-[400px] overflow-hidden ">
+      <div className="relative w-full h-[250px] md:h-[400px] lg:h-[400px] xl:h-[400px] overflow-hidden">
         <Image
-          src={data.imageUrl || '/images/placeholder-billboard.jpeg'}
-          alt={data.label || 'Imagen por defecto'}
+          src={data.imageUrl || "/images/placeholder-billboard.jpeg"}
+          alt={data.label || "Imagen por defecto"}
           fill
-          className=" lg:object-cover xl:object-cover"
+          className=" md:object-cover lg:object-cover xl:object-cover"
           priority
         />
-          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-primary-lighter/90"></div>
-
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-primary-lighter/90"></div>
       </div>
     );
   }
@@ -100,13 +99,13 @@ const Billboard: React.FC<BillboardProps> = ({ data }) => {
           {data.images.map((image, index) => (
             <div
               key={index}
-              className="flex-[0_0_100%] min-w-0 relative h-[400px]"
+              className="flex-[0_0_100%] min-w-full relative h-[400px]"
             >
               <Image
                 src={image.url}
                 alt={`${data.label} - Imagen ${index + 1}`}
                 fill
-                className=" lg:object-cover xl:object-cover"
+                className="sm:object-scale-down md:object-cover lg:object-cover xl:object-cover"
                 priority={index === 0}
               />
             </div>

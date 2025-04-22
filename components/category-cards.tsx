@@ -32,7 +32,7 @@ const CategoryCards = () => {
   const categories = [
     {
       title: "PESCA",
-      imageUrl: "https://images.unsplash.com/photo-1516962126636-27ad087061cc?q=80&w=1074&auto=format&fit=crop",
+      imageUrl: "/pesca_category.webp",
       linkUrl: "/category/pesca"
     },
     {
@@ -42,7 +42,7 @@ const CategoryCards = () => {
     },
     {
       title: "INDUMENTARIA",
-      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP0KnkNh1kHIebvWAoMAX3UJEeujwupQ18vg&s",
+      imageUrl: "/indumentaria.webp",
       linkUrl: "/category/indumentaria"
     }
   ];

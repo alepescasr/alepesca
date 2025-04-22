@@ -1,14 +1,15 @@
 'use client'
+
 import ProductCard from "@/components/ui/product-card";
 import { Product } from "@/types";
 import NoResults from "@/components/ui/no-results";
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 
 interface ProductListProps {
   title: string;
-  items: Product[]
+  items: Product[];
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -46,12 +47,14 @@ const ProductList: React.FC<ProductListProps> = ({
           </button>
         </div>
       </div>
+      
       {items.length === 0 && <NoResults />}
+      
       <div className="overflow-hidden relative" ref={emblaRef}>
         <div className="flex h-full">
           {items.map((item) => (
-            <div 
-              className="min-w-0 flex-[0_0_100%] md:flex-[0_0_25%] px-2 h-full" 
+            <div
+              className="min-w-0 flex-[0_0_100%] md:flex-[0_0_25%] px-2 h-full"
               key={item.id}
             >
               <div className="h-full">
