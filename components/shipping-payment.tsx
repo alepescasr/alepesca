@@ -45,7 +45,11 @@ const ShippingPayment = ({
     setSelectedShipping(value);
     const option = shippingOptions.find((opt) => opt.id === value);
     if (option) {
-      onShippingChange(option.price);
+      if (paymentMethod === "transfer" && value === "pickup") {
+        onShippingChange(0);
+      } else {
+        onShippingChange(option.price);
+      }
     }
   };
 
@@ -53,6 +57,9 @@ const ShippingPayment = ({
     setPaymentMethod(method);
     onPaymentMethodChange(method);
     setShowQR(false);
+    if (method === "transfer" && selectedShipping === "pickup") {
+      onShippingChange(0);
+    }
   };
 
   return (
