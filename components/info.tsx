@@ -88,7 +88,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
           >
             {isOutOfStock
               ? "Agotado"
-              : `${stockAvailable} unidades disponibles`}
+              : /* `${stockAvailable} unidades disponibles`} */ "Disponible"}
           </div>
         </div>
       </div>
