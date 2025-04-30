@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import CartInitializer from "@/components/cart-initializer";
+import getCategories from "@/actions/get-categories";
 
 import "./globals.css";
 
@@ -86,18 +87,20 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getCategories();
+
   return (
     <html lang="es">
       <body className={font.className + " bg-primary-lighter/30"}>
         <ToastProvider />
         <ModalProvider />
         <CartInitializer />
-        <Navbar />
+        <Navbar categories={categories} />
         {children}
         <WhatsAppButton />
         <Footer />

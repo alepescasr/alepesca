@@ -5,14 +5,16 @@ import Image from "next/image";
 import MainNav from "@/components/main-nav";
 import Container from "@/components/ui/container";
 import NavbarActions from "@/components/navbar-actions";
-import getCategories from "@/actions/get-categories";
 import MobileMenu from "@/components/mobile-menu";
 import NavbarSearch from "@/components/navbar-search";
 import MobileSearch from "@/components/mobile-search";
+import { Category } from "@/types";
 
-const Navbar = async () => {
-  const categories = await getCategories();
+interface NavbarProps {
+  categories: Category[];
+}
 
+const Navbar = ({ categories }: NavbarProps) => {
   return ( 
     <div className="bg-primary">
       <Container>
