@@ -81,11 +81,11 @@ const ProductCard: React.FC<ProductCard> = ({ data }) => {
         
 
         {/* Stock info */}
-        {stockAvailable > 0 && (
+     {/*    {stockAvailable > 0 && (
           <p className="text-xs text-gray-500 mt-1">
             {stockAvailable} unidades disponibles
           </p>
-        )}
+        )} */}
       </div>
       {/* Precio */}
       <div className="flex items-center justify-between mt-auto">
