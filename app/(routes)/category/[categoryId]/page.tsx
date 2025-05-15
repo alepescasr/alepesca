@@ -75,6 +75,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
             colors={colors}
             billboardData={billboardData}
             subcategories={subcategoriesWithProducts}
+            categoryId={params.categoryId}
           />
         </Container>
       </div>

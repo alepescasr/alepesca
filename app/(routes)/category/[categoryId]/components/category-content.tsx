@@ -24,18 +24,40 @@ interface CategoryContentProps {
     imageUrl: string;
   };
   subcategories: Subcategory[];
+  categoryId: string;
 }
 
 const CategoryContent: React.FC<CategoryContentProps> = ({
   products,
   colors,
   billboardData,
-  subcategories
+  subcategories,
+  categoryId
 }) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
-  const [sortOrder, setSortOrder] = useState<string>('default');
+  const [sortOrder, setSortOrder] = useState<string>("default");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
+
+  // Cargar los filtros guardados cuando cambia la categoría
+  useEffect(() => {
+    const savedSubcats = localStorage.getItem(`categorySubcats-${categoryId}`);
+    const savedSortOrder = localStorage.getItem(`categorySortOrder-${categoryId}`);
+    
+    if (savedSubcats) {
+      setSelectedSubcategories(JSON.parse(savedSubcats));
+    } else {
+      setSelectedSubcategories([]);
+    }
+    
+    if (savedSortOrder) {
+      setSortOrder(savedSortOrder);
+    } else {
+      setSortOrder("default");
+    }
+    
+    setSearchResults([]);
+  }, [categoryId]);
 
   // Efecto para aplicar filtros cuando cambian los productos o los filtros
   useEffect(() => {
@@ -61,9 +83,19 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
     setFilteredProducts(result);
   }, [products, searchResults, selectedSubcategories, sortOrder]);
 
+  // Guardar los filtros en localStorage cuando cambian
+  useEffect(() => {
+    localStorage.setItem(`categorySubcats-${categoryId}`, JSON.stringify(selectedSubcategories));
+  }, [selectedSubcategories, categoryId]);
+
+  useEffect(() => {
+    localStorage.setItem(`categorySortOrder-${categoryId}`, sortOrder);
+  }, [sortOrder, categoryId]);
+
   const handleSubcategorySelect = (subcategory: string) => {
     if (!selectedSubcategories.includes(subcategory)) {
-      setSelectedSubcategories([...selectedSubcategories, subcategory]);
+      const newSubcats = [...selectedSubcategories, subcategory];
+      setSelectedSubcategories(newSubcats);
     }
   };
 
@@ -73,9 +105,10 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
 
   const removeFilter = (filterToRemove: string) => {
     if (subcategories.some(s => s.name === filterToRemove)) {
-      setSelectedSubcategories(selectedSubcategories.filter(f => f !== filterToRemove));
+      const newSubcats = selectedSubcategories.filter(f => f !== filterToRemove);
+      setSelectedSubcategories(newSubcats);
     } else if (filterToRemove.includes('Precio')) {
-      setSortOrder('default');
+      setSortOrder("default");
     }
   };
 
@@ -110,7 +143,7 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-default">Todos los productos</SelectItem>
+                  {/* <SelectItem value="all-default">Todos los productos</SelectItem> */}
                   <SelectItem value="all-asc">Precio: Menor a Mayor</SelectItem>
                   <SelectItem value="all-desc">Precio: Mayor a Menor</SelectItem>
                   {subcategories.length > 0 && (
