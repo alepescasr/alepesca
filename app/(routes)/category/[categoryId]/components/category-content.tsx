@@ -38,6 +38,7 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>("default");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [clearSearch, setClearSearch] = useState(false);
 
   // Cargar los filtros guardados cuando cambia la categoría
   useEffect(() => {
@@ -121,6 +122,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
     setSelectedSubcategories([]);
     setSortOrder("default");
     setFilteredProducts(products);
+    setClearSearch(true);
+    // Resetear el estado de limpieza después de un breve delay
+    setTimeout(() => {
+      setClearSearch(false);
+    }, 100);
   };
 
   return (
@@ -130,7 +136,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
         <div className="mt-6">
           <div className="mb-2 flex justify-center gap-6">
             <div className="w-[60%] max-w-[600px]">
-              <Search products={products} onSearch={handleSearch} />
+              <Search 
+                products={products} 
+                onSearch={handleSearch} 
+                clearSearchTerm={clearSearch}
+              />
             </div>
             <div className="w-auto">
               <Select

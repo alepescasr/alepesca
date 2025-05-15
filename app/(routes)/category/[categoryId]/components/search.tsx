@@ -8,15 +8,26 @@ import { useRouter } from 'next/navigation';
 interface SearchProps {
   products: Product[];
   onSearch: (results: Product[]) => void;
+  clearSearchTerm?: boolean;
 }
 
-const Search: React.FC<SearchProps> = ({ products, onSearch }) => {
+const Search: React.FC<SearchProps> = ({ products, onSearch, clearSearchTerm }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [filteredResults, setFilteredResults] = useState<Product[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  // Efecto para limpiar el input cuando clearSearchTerm cambia
+  useEffect(() => {
+    if (clearSearchTerm) {
+      setSearchTerm('');
+      setSuggestions([]);
+      setFilteredResults([]);
+      setShowSuggestions(false);
+    }
+  }, [clearSearchTerm]);
 
   // Efecto para manejar clics fuera del componente
   useEffect(() => {
