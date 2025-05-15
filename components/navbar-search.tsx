@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { Product } from '@/types';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,22 @@ const NavbarSearch = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredResults, setFilteredResults] = useState<Product[]>([]);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  // Efecto para manejar clics fuera del componente
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Cargar todos los productos al montar el componente
   useEffect(() => {
@@ -45,6 +61,7 @@ const NavbarSearch = () => {
     });
 
     setSuggestions(filtered.slice(0, 5));
+    setFilteredResults(filtered);
   }, [allProducts]);
 
   // Efecto para filtrar cuando cambia el término de búsqueda
@@ -57,46 +74,77 @@ const NavbarSearch = () => {
   }, [searchTerm, filterProducts]);
 
   const handleSuggestionClick = (product: Product) => {
-    setSearchTerm(product.name);
-    filterProducts(product.name);
+    const searchValue = product.name;
+    filterProducts(searchValue);
     setShowSuggestions(false);
+    // Limpiar el input después de un breve delay
+    setTimeout(() => {
+      setSearchTerm('');
+      setSuggestions([]);
+    }, 300);
     router.push(`/product/${product.id}`);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
+      filterProducts(searchTerm);
       setShowSuggestions(false);
+      // Limpiar el input después de un breve delay
+      setTimeout(() => {
+        setSearchTerm('');
+        setSuggestions([]);
+      }, 300);
       router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
     }
   };
 
   const handleViewAllResults = () => {
     if (searchTerm.trim()) {
+      filterProducts(searchTerm);
       setShowSuggestions(false);
+      // Limpiar el input después de un breve delay
+      setTimeout(() => {
+        setSearchTerm('');
+        setSuggestions([]);
+      }, 300);
       router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
     }
+  };
+
+  const handleShowAll = () => {
+    setSearchTerm('');
+    setSuggestions([]);
+    setFilteredResults([]);
+    setShowSuggestions(false);
   };
 
   const clearSearch = () => {
     setSearchTerm('');
     setSuggestions([]);
     setShowSuggestions(false);
+    // No limpiamos filteredResults para mantener los resultados
   };
 
   return (
-    <div className="relative hidden lg:block w-[300px]">
+    <div className="relative hidden lg:block w-[300px]" ref={searchRef}>
       <form onSubmit={handleSearchSubmit} className="relative">
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setShowSuggestions(true);
+            const newValue = e.target.value;
+            setSearchTerm(newValue);
+            // Solo mostramos sugerencias si hay texto
+            setShowSuggestions(newValue.length > 0);
+            // Si el input está vacío, limpiamos las sugerencias pero mantenemos los resultados
+            if (!newValue.trim()) {
+              setSuggestions([]);
+            }
           }}
-          onFocus={() => setShowSuggestions(true)}
+          onFocus={() => setShowSuggestions(searchTerm.length > 0)}
           placeholder="Buscar productos..."
-          className="w-full px-4 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:text-primary-lighter"
+          className="w-full px-4 py-2 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent focus:text-primary-lighter text-primary"
         />
         {searchTerm && (
           <button
@@ -147,6 +195,15 @@ const NavbarSearch = () => {
             Ver todos los productos
           </button>
         </div>
+      )}
+
+      {filteredResults.length > 0 && !showSuggestions && (
+        <button
+          onClick={handleShowAll}
+          className="mt-2 w-full px-4 py-2 text-center text-primary hover:bg-gray-100 border border-gray-300 rounded-md shadow-sm font-medium transition-colors"
+        >
+          Mostrar todos los productos
+        </button>
       )}
     </div>
   );

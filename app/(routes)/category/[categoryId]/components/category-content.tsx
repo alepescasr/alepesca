@@ -116,6 +116,13 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
     setSearchResults(results);
   };
 
+  const handleShowAll = () => {
+    setSearchResults([]);
+    setSelectedSubcategories([]);
+    setSortOrder("default");
+    setFilteredProducts(products);
+  };
+
   return (
     <div className="bg-primary-lighter/30">
       <Billboard data={billboardData} />
@@ -143,7 +150,6 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  {/* <SelectItem value="all-default">Todos los productos</SelectItem> */}
                   <SelectItem value="all-asc">Precio: Menor a Mayor</SelectItem>
                   <SelectItem value="all-desc">Precio: Mayor a Menor</SelectItem>
                   {subcategories.length > 0 && (
@@ -160,10 +166,22 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
               </Select>
             </div>
           </div>
+
+          {/* Botón Mostrar todos los productos */}
+          {(searchResults.length > 0 || selectedSubcategories.length > 0 || sortOrder !== 'default') && (
+            <div className="flex justify-center mb-4">
+              <button
+                onClick={handleShowAll}
+                className="w-[60%] max-w-[600px] px-4 py-2 text-center text-primary hover:bg-gray-100 border-2 border-gray-300 rounded-md shadow-sm font-medium transition-colors sm:rounded-lg"
+              >
+                Mostrar todos los productos
+              </button>
+            </div>
+          )}
           
           {/* Barra de filtros activos */}
           {(selectedSubcategories.length > 0 || sortOrder !== 'default') && (
-            <div className=" mr-2 mb-4 flex flex-wrap gap-2">
+            <div className="mr-2 mb-4 flex flex-wrap gap-2">
               {selectedSubcategories.map((subcategory) => (
                 <div
                   key={subcategory}
@@ -194,11 +212,11 @@ const CategoryContent: React.FC<CategoryContentProps> = ({
             </div>
           )}
 
-            {filteredProducts.length === 0 && <NoResults />}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filteredProducts.map((item) => (
-                <ProductCard key={item.id} data={item} />
-              ))}
+          {filteredProducts.length === 0 && <NoResults />}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredProducts.map((item) => (
+              <ProductCard key={item.id} data={item} />
+            ))}
           </div>
         </div>
       </div>
